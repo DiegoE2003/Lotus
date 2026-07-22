@@ -195,8 +195,8 @@ def parse_args():
         "--split_dir",
         type=str,
         default=None,
-        help="Dir with train_stems.txt / val_stems.txt from make_finaldataset_split.py. "
-        "If set, trains ONLY on train_stems.txt (honest eval = score val_stems).",
+        help="Dir with train_stems.txt (+ val/test lists) from make_finaldataset_split.py. "
+        "If set, trains ONLY on train_stems.txt (tune on val; final report on test).",
     )
     p.add_argument(
         "--val_ratio",
@@ -370,7 +370,7 @@ def main():
     train_stems, split_dir = resolve_train_stems(args)
     if split_dir is not None and accelerator.is_main_process:
         logger.info(
-            "Using split_dir=%s (train on train_stems only; score val_stems later)",
+            "Using split_dir=%s (train on train_stems; tune on val; final score on test)",
             split_dir,
         )
 
@@ -490,7 +490,10 @@ def main():
     logger.info(f"  Output = {args.output_dir}")
     if split_dir is not None:
         logger.info(f"  Split dir = {split_dir}")
-        logger.info("  Honest metrics: score ONLY val_stems.txt → all / gt_only / syn_only")
+        logger.info(
+            "  Protocol: tune on val_stems.txt; report final metrics on test_stems.txt "
+            "→ all / gt_only / syn_only"
+        )
 
     global_step = 0
     progress_bar = tqdm(
@@ -516,11 +519,11 @@ def main():
 
                 bsz = target_latents.shape[0]
                 bsz_per_task = bsz // 2
-
+ 
                 invalid_mask = ~valid_mask.bool()
                 valid_mask_down_anno = ~torch.max_pool2d(invalid_mask.float(), 8, 8).bool()
                 valid_mask_down_anno = valid_mask_down_anno.repeat(1, 4, 1, 1)
-                valid_mask_down_rgb = torch.ones_like(target_latents[bsz_per_task:]).bool()
+                valid_mask_down_rgb = torch.ones_like(target_latents[bsz_per_task:]).to(target_latents.device).bool()
 
                 timesteps = torch.tensor([args.timestep], device=target_latents.device).repeat(bsz).long()
 
