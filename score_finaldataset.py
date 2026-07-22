@@ -1,34 +1,12 @@
 #!/usr/bin/env python3
-"""Score predictions against finaldataset (All / GT-only / Syn-only).
+"""Score disc predictions for paper tables.
 
-Angular error + aggregate metrics use official Lotus helpers:
-  evaluation/util/normal_utils.py
-    - compute_normal_error
-    - compute_normal_metrics
-(same path as eval.py → evaluation_normal).
+Scoring math is ONLY the shared helper that copies evaluation_normal:
+  evaluation/util/evaluation_normal_score.py
+    → compute_normal_error → pred_error[mask] → compute_normal_metrics
 
-Run inference ONCE on all samples. Split scores afterward — no second run.
-
-  all       — every stem
-  gt_only   — stems WITHOUT '_syn_'
-  syn_only  — stems WITH '_syn_'
-
-Primary paper-style columns (Lotus evaluation_normal):
-  MAE       = mean  (= Lotus 'mean')
-  MED       = median (= Lotus 'median')
-  <11.25    = a3     (= Lotus 'a3')
-
-Also reports per-image MAE average and angular RMSE.
-
-Expects:
-  data_dir/{stem}/rgb.png
-  data_dir/{stem}/normal_map.png
-  data_dir/{stem}/mask.png
-
-Predictions:
-  prediction_dir/{stem}.npy   (preferred)
-  prediction_dir/{stem}.png
-  prediction_dir/normal/{stem}.npy
+After FT use --split_dir .../seed42_tvt_70_15_15 (test_stems only).
+Also reports all / gt_only / syn_only buckets (lab split, same math each).
 """
 
 from __future__ import annotations
@@ -41,21 +19,25 @@ import cv2
 import numpy as np
 import torch
 from tabulate import tabulate
+from torchvision.transforms.functional import resize
 
-from evaluation.util.normal_utils import compute_normal_error, compute_normal_metrics
+from evaluation.util.evaluation_normal_score import (
+    accumulate_normal_errors,
+    metrics_from_errors,
+)
 
 
 def parse_args():
-    p = argparse.ArgumentParser(description="Score finaldataset (All / GT / Syn)")
+    p = argparse.ArgumentParser(description="Score finaldataset (Lotus evaluation_normal math)")
     p.add_argument("--data_dir", required=True)
     p.add_argument("--prediction_dir", required=True)
     p.add_argument("--output_dir", required=True)
     p.add_argument(
-        "--stems_file",
+        "--split_dir",
         default=None,
-        help="Optional text file of stems to score (e.g. val_stems.txt). "
-        "Within that set still reports all / gt_only / syn_only.",
+        help="If set (and no --stems_file), score test_stems.txt only.",
     )
+    p.add_argument("--stems_file", default=None, help="Explicit stem list (overrides --split_dir).")
     return p.parse_args()
 
 
@@ -67,8 +49,8 @@ def resolve_pred_dir(prediction_dir: Path) -> Path:
     return prediction_dir
 
 
-def load_pred(pred_dir: Path, stem: str) -> np.ndarray:
-    """Load prediction as HWC float32 in [-1, 1]."""
+def load_pred(pred_dir: Path, stem: str) -> torch.Tensor:
+    """Load pred as (1,3,H,W) in [-1,1]."""
     npy = pred_dir / f"{stem}.npy"
     if npy.is_file():
         arr = np.load(npy).astype(np.float32)
@@ -76,220 +58,166 @@ def load_pred(pred_dir: Path, stem: str) -> np.ndarray:
             arr = arr.transpose(1, 2, 0)
         if arr.min() >= -0.05 and arr.max() <= 1.05:
             arr = arr * 2.0 - 1.0
-        return arr
-
-    png = pred_dir / f"{stem}.png"
-    if not png.is_file():
-        raise FileNotFoundError(stem)
-    arr = cv2.cvtColor(cv2.imread(str(png), cv2.IMREAD_UNCHANGED), cv2.COLOR_BGR2RGB)
-    return arr.astype(np.float32) / 255.0 * 2.0 - 1.0
-
-
-def hwc_to_bchw(arr: np.ndarray) -> torch.Tensor:
-    """(H, W, 3) numpy → (1, 3, H, W) float torch — layout expected by Lotus."""
+    else:
+        png = pred_dir / f"{stem}.png"
+        if not png.is_file():
+            raise FileNotFoundError(stem)
+        arr = cv2.cvtColor(cv2.imread(str(png), cv2.IMREAD_UNCHANGED), cv2.COLOR_BGR2RGB)
+        arr = arr.astype(np.float32) / 255.0 * 2.0 - 1.0
     return torch.from_numpy(np.ascontiguousarray(arr)).permute(2, 0, 1).unsqueeze(0).float()
 
 
-def summarize(img_maes: list[float], pix_errs: list[torch.Tensor]) -> dict:
-    """Pixel-pooled metrics via Lotus compute_normal_metrics."""
-    if not img_maes:
-        nan = float("nan")
-        return {
-            "num_images": 0,
-            "per_image_mae_avg": nan,
-            "mae_deg": nan,
-            "med_deg": nan,
-            "rmse_deg": nan,
-            "a_11_25": nan,
-            "a_5": nan,
-            "a_7_5": nan,
-            "a_22_5": nan,
-            "a_30": nan,
-            "num_pixels": 0,
-        }
-    total = torch.cat(pix_errs, dim=0)
-    m = compute_normal_metrics(total)
-    return {
-        "num_images": len(img_maes),
-        "per_image_mae_avg": float(np.mean(img_maes)),
-        "mae_deg": float(m["mean"]),
-        "med_deg": float(m["median"]),
-        "rmse_deg": float(m["rmse"]),
-        "a_11_25": float(m["a3"]),
-        "a_5": float(m["a1"]),
-        "a_7_5": float(m["a2"]),
-        "a_22_5": float(m["a4"]),
-        "a_30": float(m["a5"]),
-        "num_pixels": int(total.numel()),
-    }
+def load_gt_mask(sample_dir: Path) -> tuple[torch.Tensor, torch.Tensor] | tuple[None, None]:
+    """(1,3,H,W) GT + (1,1,H,W) mask for accumulate_normal_errors."""
+    gt = cv2.cvtColor(
+        cv2.imread(str(sample_dir / "normal_map.png"), cv2.IMREAD_UNCHANGED),
+        cv2.COLOR_BGR2RGB,
+    ).astype(np.float32)
+    if gt.max() > 1.5:
+        gt = gt / 255.0 * 2.0 - 1.0
+    gt_t = torch.from_numpy(np.ascontiguousarray(gt)).permute(2, 0, 1).unsqueeze(0).float()
+
+    mask = cv2.imread(str(sample_dir / "mask.png"), cv2.IMREAD_GRAYSCALE)
+    if mask is None:
+        return None, None
+    mask = mask > 0
+    if mask.shape[:2] != gt.shape[:2]:
+        mask = (
+            cv2.resize(
+                mask.astype(np.uint8),
+                (gt.shape[1], gt.shape[0]),
+                interpolation=cv2.INTER_NEAREST,
+            )
+            > 0
+        )
+    gt_norm_mask = torch.from_numpy(mask.astype(bool))[None, None]
+    return gt_t, gt_norm_mask
 
 
-def main():
-    args = parse_args()
-
-    data_dir = Path(args.data_dir)
-    pred_dir = resolve_pred_dir(Path(args.prediction_dir))
-    out_dir = Path(args.output_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    per_image = {}
-    buckets = {
-        "all": {"img_mae": [], "pix": []},
-        "gt_only": {"img_mae": [], "pix": []},
-        "syn_only": {"img_mae": [], "pix": []},
-    }
-    missing = []
-
+def resolve_stems(data_dir: Path, stems_file: str | None, split_dir: str | None):
     stems = sorted(
         p.name
         for p in data_dir.iterdir()
         if p.is_dir() and (p / "normal_map.png").is_file() and (p / "mask.png").is_file()
     )
-    if args.stems_file:
-        allow = {
-            ln.strip()
-            for ln in Path(args.stems_file).read_text().splitlines()
-            if ln.strip()
-        }
+    path = stems_file
+    if path is None and split_dir:
+        test_path = Path(split_dir) / "test_stems.txt"
+        if not test_path.is_file():
+            raise SystemExit(f"Missing {test_path}")
+        path = str(test_path)
+        print(f"Using test split from {path}")
+    if path:
+        allow = {ln.strip() for ln in Path(path).read_text().splitlines() if ln.strip()}
         stems = [s for s in stems if s in allow]
-        print(f"Scoring {len(stems)} stems from {args.stems_file}")
+        print(f"Scoring {len(stems)} stems from {path}")
+    return stems, path
+
+
+def score_stem_list(data_dir: Path, pred_dir: Path, stems: list[str]) -> tuple[dict, dict, list]:
+    """Pool errors with stock accumulate_normal_errors; return splits + per_image + missing."""
+    pools = {"all": None, "gt_only": None, "syn_only": None}
+    counts = {"all": 0, "gt_only": 0, "syn_only": 0}
+    per_image = {}
+    missing = []
 
     for stem in stems:
-        sample_dir = data_dir / stem
         try:
             pred = load_pred(pred_dir, stem)
         except FileNotFoundError:
             missing.append(stem)
             continue
-        except Exception as e:
-            print(f"WARN: bad pred {stem}: {e}")
-            missing.append(stem)
+
+        gt, gt_mask = load_gt_mask(data_dir / stem)
+        if gt is None:
             continue
 
-        gt = cv2.cvtColor(
-            cv2.imread(str(sample_dir / "normal_map.png"), cv2.IMREAD_UNCHANGED),
-            cv2.COLOR_BGR2RGB,
-        ).astype(np.float32)
-        if gt.max() > 1.5:
-            gt = gt / 255.0 * 2.0 - 1.0
+        if pred.shape[-2:] != gt.shape[-2:]:
+            pred = resize(pred, gt.shape[-2:], antialias=True)
 
-        mask = cv2.imread(str(sample_dir / "mask.png"), cv2.IMREAD_GRAYSCALE)
-        if mask is None:
-            print(f"WARN: bad mask {stem}")
-            continue
-        mask = mask > 0
-        if mask.shape[:2] != gt.shape[:2]:
-            mask = (
-                cv2.resize(
-                    mask.astype(np.uint8),
-                    (gt.shape[1], gt.shape[0]),
-                    interpolation=cv2.INTER_NEAREST,
-                )
-                > 0
-            )
-        if pred.shape[:2] != gt.shape[:2]:
-            pred = cv2.resize(pred, (gt.shape[1], gt.shape[0]), interpolation=cv2.INTER_LINEAR)
-
-        # Same valid-pixel rule as before; error itself is Lotus compute_normal_error
-        valid_np = mask & (np.linalg.norm(gt, axis=-1) > 0.5)
-        if not np.any(valid_np):
-            print(f"WARN: no valid pixels for {stem}")
+        # one-image pool via same helper as evaluation_normal
+        img_errs = accumulate_normal_errors(pred, gt, gt_mask, None)
+        if img_errs is None or img_errs.numel() == 0:
             continue
 
-        pred_t = hwc_to_bchw(pred)
-        gt_t = hwc_to_bchw(gt)
-        # Matches evaluation_normal: compute_normal_error then index by mask
-        pred_error = compute_normal_error(pred_t, gt_t)  # (1, 1, H, W)
-        valid = torch.from_numpy(valid_np.astype(bool))
-        err_v = pred_error[0, 0][valid]  # 1D, degrees
-        if err_v.numel() == 0:
-            print(f"WARN: no valid pixels for {stem}")
-            continue
-
-        img_metrics = compute_normal_metrics(err_v)
-        mae = float(img_metrics["mean"])
+        img_m = metrics_from_errors(img_errs)
         is_syn = "_syn_" in stem
         per_image[stem] = {
-            "mae_deg": mae,
-            "median_deg": float(img_metrics["median"]),
-            "rmse_deg": float(img_metrics["rmse"]),
-            "a_11_25": float(img_metrics["a3"]),
-            "num_pixels": int(err_v.numel()),
+            "mean": float(img_m["mean"]),
+            "median": float(img_m["median"]),
+            "a3": float(img_m["a3"]),
             "is_syn": is_syn,
         }
-        for b in ("all", "syn_only" if is_syn else "gt_only"):
-            buckets[b]["img_mae"].append(mae)
-            buckets[b]["pix"].append(err_v.detach().cpu().reshape(-1))
 
-    splits = {name: summarize(b["img_mae"], b["pix"]) for name, b in buckets.items()}
+        for key in ("all", "syn_only" if is_syn else "gt_only"):
+            pools[key] = accumulate_normal_errors(pred, gt, gt_mask, pools[key])
+            counts[key] += 1
+
+    splits = {}
+    for name, pool in pools.items():
+        m = metrics_from_errors(pool)
+        if m is None:
+            splits[name] = {
+                "num_images": 0,
+                "mean": float("nan"),
+                "median": float("nan"),
+                "rmse": float("nan"),
+                "a1": float("nan"),
+                "a2": float("nan"),
+                "a3": float("nan"),
+                "a4": float("nan"),
+                "a5": float("nan"),
+            }
+        else:
+            splits[name] = {"num_images": counts[name], **{k: float(v) for k, v in m.items()}}
+    return splits, per_image, missing
+
+
+def main():
+    args = parse_args()
+    data_dir = Path(args.data_dir)
+    pred_dir = resolve_pred_dir(Path(args.prediction_dir))
+    out_dir = Path(args.output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    stems, stems_file = resolve_stems(data_dir, args.stems_file, args.split_dir)
+    splits, per_image, missing = score_stem_list(data_dir, pred_dir, stems)
+
     summary = {
         "data_dir": str(data_dir),
         "prediction_dir": str(pred_dir),
-        "stems_file": args.stems_file,
+        "stems_file": stems_file,
+        "split_dir": args.split_dir,
+        "score_source": "evaluation.util.evaluation_normal_score (from evaluation_normal)",
         "missing_predictions": missing,
-        "metric_notes": {
-            "source": "evaluation.util.normal_utils.compute_normal_error + compute_normal_metrics",
-            "MAE": "Lotus 'mean' (pixel-pooled mean angular error, degrees)",
-            "MED": "Lotus 'median'",
-            "<11.25": "Lotus 'a3' (% pixels with error < 11.25 deg)",
-        },
         "per_image": per_image,
         "splits": splits,
     }
+    (out_dir / "eval_metrics.json").write_text(json.dumps(summary, indent=2) + "\n")
 
-    json_path = out_dir / "eval_metrics.json"
-    with open(json_path, "w") as f:
-        json.dump(summary, f, indent=2)
-
-    table = []
-    for name in ("all", "gt_only", "syn_only"):
-        s = splits[name]
-        table.append(
-            [
-                name,
-                s["num_images"],
-                f"{s['mae_deg']:.3f}",
-                f"{s['med_deg']:.3f}",
-                f"{s['a_11_25']:.3f}",
-                f"{s['rmse_deg']:.3f}",
-                f"{s['per_image_mae_avg']:.3f}",
-            ]
-        )
-
+    table = [
+        [name, splits[name]["num_images"], f"{splits[name]['mean']:.3f}",
+         f"{splits[name]['median']:.3f}", f"{splits[name]['a3']:.3f}", f"{splits[name]['rmse']:.3f}"]
+        for name in ("all", "gt_only", "syn_only")
+    ]
     txt = tabulate(
         table,
-        headers=[
-            "split",
-            "N_images",
-            "MAE",
-            "MED",
-            "<11.25",
-            "RMSE",
-            "per_image_MAE",
-        ],
+        headers=["split", "N", "mean", "median", "a3(<11.25)", "rmse"],
         tablefmt="github",
     )
-    txt_path = out_dir / "eval_metrics.txt"
-    with open(txt_path, "w") as f:
-        f.write(txt + "\n")
-        f.write(
-            "\nMAE/MED/<11.25>/RMSE from Lotus normal_utils "
-            "(compute_normal_error + compute_normal_metrics).\n"
-            "per_image_MAE is equal-weight average of per-image MAEs.\n"
-            "gt_only = no '_syn_' in stem; syn_only = '_syn_' in stem.\n"
-        )
-        if args.stems_file:
-            f.write(f"\nstems_file filter: {args.stems_file}\n")
-        if missing:
-            f.write("\nMissing predictions:\n")
-            f.write("\n".join(missing) + "\n")
+    (out_dir / "eval_metrics.txt").write_text(
+        txt
+        + "\n\nmean/median/a3/rmse = Lotus compute_normal_metrics "
+        "(via evaluation_normal_score).\n"
+        + (f"stems_file: {stems_file}\n" if stems_file else "")
+        + (("missing:\n" + "\n".join(missing) + "\n") if missing else "")
+    )
 
     print("\n=== finaldataset scores ===")
     print(txt)
-    print(f"\nSaved: {json_path}")
-    print(f"Saved: {txt_path}")
+    print(f"\nSaved: {out_dir / 'eval_metrics.json'}")
     if missing:
-        print(f"Missing predictions: {len(missing)}")
+        print(f"Missing: {len(missing)}")
 
 
 if __name__ == "__main__":

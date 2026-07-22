@@ -151,8 +151,33 @@ def run_example_validation(pipeline, task, args, step, accelerator, generator):
     os.makedirs(save_dir, exist_ok=True)
     save_output.save(os.path.join(save_dir, f'{step:05d}.jpg'))
 
+def gen_normal(img, pipe, prompt="", timestep=999):
+    """Stock normal predict used by run_evaluation → evaluation_normal.
+
+    Hoisted to module level so finetune can import the same function (no duplicate logic).
+    """
+    if torch.backends.mps.is_available():
+        autocast_ctx = nullcontext()
+    else:
+        autocast_ctx = torch.autocast(pipe.device.type)
+
+    with autocast_ctx:
+        task_emb = torch.tensor([1, 0]).float().unsqueeze(0).repeat(1, 1).to(pipe.device)
+        task_emb = torch.cat([torch.sin(task_emb), torch.cos(task_emb)], dim=-1).repeat(1, 1)
+
+        pred_normal = pipe(
+            rgb_in=img,  # [-1,1]
+            task_emb=task_emb,
+            prompt=prompt,
+            timesteps=[timestep],
+            output_type="pt",
+        ).images[0]  # [0,1], (3,h,w)
+        pred_normal = (pred_normal * 2 - 1.0).unsqueeze(0)  # [-1,1], (1,3,h,w)
+    return pred_normal
+
+
 def run_evaluation(pipeline, task, args, step, accelerator):
-    # Define prediction functions
+    # Define prediction functions (gen_normal is module-level; wrap timestep from args)
     def gen_depth(rgb_in, pipe, prompt=""):
         if torch.backends.mps.is_available():
                 autocast_ctx = nullcontext()
@@ -175,26 +200,9 @@ def run_evaluation(pipeline, task, args, step, accelerator):
             pred_depth = pred_depth.mean(axis=-1) # [0,1]
         return pred_depth
 
-    def gen_normal(img, pipe, prompt=""):
-        if torch.backends.mps.is_available():
-                autocast_ctx = nullcontext()
-        else:
-            autocast_ctx = torch.autocast(pipe.device.type)
+    def gen_normal_for_eval(img, pipe, prompt=""):
+        return gen_normal(img, pipe, prompt=prompt, timestep=args.timestep)
 
-        with autocast_ctx:
-            task_emb = torch.tensor([1, 0]).float().unsqueeze(0).repeat(1, 1).to(pipe.device)
-            task_emb = torch.cat([torch.sin(task_emb), torch.cos(task_emb)], dim=-1).repeat(1, 1)
-
-            pred_normal = pipe(
-                            rgb_in=img, # [-1,1] 
-                            task_emb=task_emb,
-                            prompt=prompt, 
-                            timesteps=[args.timestep],
-                            output_type='pt',
-                            ).images[0] # [0,1], (3,h,w)
-            pred_normal = (pred_normal*2-1.0).unsqueeze(0) # [-1,1], (1,3,h,w)
-        return pred_normal
-    
     if step > 0:
         if task == "depth":
             test_data_dir = os.path.join(args.base_test_data_dir, task)
@@ -242,7 +250,7 @@ def run_evaluation(pipeline, task, args, step, accelerator):
                 eval_datasets = [('nyuv2', 'test'), ('scannet', 'test'), ('ibims', 'ibims'), ('sintel', 'sintel'), ('oasis','val')]
             eval_dir = os.path.join(args.output_dir, f'evaluation-{step:05d}', task)
             eval_metrics = evaluation_normal(eval_dir, test_data_dir, dataset_split_path, eval_mode="generate_prediction", 
-                                                gen_prediction=gen_normal, pipeline=pipeline, eval_datasets=eval_datasets,
+                                                gen_prediction=gen_normal_for_eval, pipeline=pipeline, eval_datasets=eval_datasets,
                                                 save_pred_vis=args.save_pred_vis)
             
             LEADER_DATASET = eval_datasets[0][0]

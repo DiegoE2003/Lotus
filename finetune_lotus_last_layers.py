@@ -32,8 +32,10 @@ import math
 import os
 import random
 import shutil
+from contextlib import nullcontext
 from pathlib import Path
 
+import cv2
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -49,6 +51,10 @@ from torch.utils.data import DataLoader, Dataset
 from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
 
+from evaluation.util.evaluation_normal_score import (
+    accumulate_normal_errors,
+    metrics_from_errors,
+)
 from pipeline import LotusDPipeline, LotusGPipeline
 
 check_min_version("0.28.0.dev0")
@@ -180,6 +186,13 @@ def parse_args():
     p.add_argument("--checkpointing_steps", type=int, default=500)
     p.add_argument("--checkpoints_total_limit", type=int, default=2)
     p.add_argument(
+        "--validation_steps",
+        type=int,
+        default=200,
+        help="Every N steps: disc val on val_stems (stock Lotus mean). "
+        "Keeps checkpoint-best. 0 disables.",
+    )
+    p.add_argument(
         "--random_flip",
         action=argparse.BooleanOptionalAction,
         default=True,
@@ -236,14 +249,16 @@ def load_stem_list(path: Path) -> list[str]:
     return stems
 
 
-def resolve_train_stems(args) -> tuple[list[str] | None, Path | None]:
-    """Return (train_stems or None=all, split_dir used/written)."""
+def resolve_train_stems(args) -> tuple[list[str] | None, Path | None, list[str] | None]:
+    """Return (train_stems or None=all, split_dir, val_stems or None)."""
     if args.split_dir:
         split_dir = Path(args.split_dir)
         train_path = split_dir / "train_stems.txt"
         if not train_path.is_file():
             raise FileNotFoundError(f"Missing {train_path}. Run make_finaldataset_split.py first.")
-        return load_stem_list(train_path), split_dir
+        val_path = split_dir / "val_stems.txt"
+        val_stems = load_stem_list(val_path) if val_path.is_file() else None
+        return load_stem_list(train_path), split_dir, val_stems
 
     if args.val_ratio is not None:
         from make_finaldataset_split import list_stems, stratified_split, write_list
@@ -262,9 +277,199 @@ def resolve_train_stems(args) -> tuple[list[str] | None, Path | None]:
         }
         (split_dir / "split_info.json").write_text(json.dumps(info, indent=2) + "\n")
         logger.info("Created split at %s: train=%d val=%d", split_dir, len(parts["train"]), len(parts["val"]))
-        return parts["train"], split_dir
+        return parts["train"], split_dir, parts["val"]
 
-    return None, None
+    return None, None, None
+
+
+def gen_normal(img, pipe, prompt="", timestep=999):
+    """Copied from train_lotus_d.run_evaluation nested gen_normal."""
+    if torch.backends.mps.is_available():
+        autocast_ctx = nullcontext()
+    else:
+        autocast_ctx = torch.autocast(pipe.device.type)
+
+    with autocast_ctx:
+        task_emb = torch.tensor([1, 0]).float().unsqueeze(0).repeat(1, 1).to(pipe.device)
+        task_emb = torch.cat([torch.sin(task_emb), torch.cos(task_emb)], dim=-1).repeat(1, 1)
+
+        pred_normal = pipe(
+            rgb_in=img,  # [-1,1]
+            task_emb=task_emb,
+            prompt=prompt,
+            timesteps=[timestep],
+            output_type="pt",
+        ).images[0]  # [0,1], (3,h,w)
+        pred_normal = (pred_normal * 2 - 1.0).unsqueeze(0)  # [-1,1], (1,3,h,w)
+    return pred_normal
+
+
+def build_val_pipeline(vae, text_encoder, tokenizer, unet, args, accelerator, weight_dtype):
+    """Same construction as train_lotus_d.log_validation (G or D by --mode)."""
+    pipe_cls = LotusGPipeline if args.mode == "generation" else LotusDPipeline
+    pipeline = pipe_cls.from_pretrained(
+        args.pretrained_model_name_or_path,
+        vae=accelerator.unwrap_model(vae),
+        text_encoder=accelerator.unwrap_model(text_encoder),
+        tokenizer=tokenizer,
+        unet=accelerator.unwrap_model(unet),
+        safety_checker=None,
+        torch_dtype=weight_dtype,
+    )
+    pipeline = pipeline.to(accelerator.device)
+    pipeline.set_progress_bar_config(disable=True)
+    if args.enable_xformers_memory_efficient_attention:
+        pipeline.enable_xformers_memory_efficient_attention()
+    return pipeline
+
+
+def _load_rgb_for_val(rgb_path: Path, device):
+    """Same RGB preprocess as train_lotus_d.run_example_validation (normal)."""
+    validation_image = Image.open(rgb_path).convert("RGB")
+    validation_image = np.array(validation_image).astype(np.float32)
+    validation_image = torch.tensor(validation_image).permute(2, 0, 1).unsqueeze(0)
+    validation_image = validation_image / 127.5 - 1.0
+    return validation_image.to(device)
+
+
+def _load_gt_mask(gt_path: Path, mask_path: Path, device):
+    """Disc GT → tensors shaped like evaluation_normal's gt_norm / gt_norm_mask."""
+    gt = cv2.cvtColor(cv2.imread(str(gt_path), cv2.IMREAD_UNCHANGED), cv2.COLOR_BGR2RGB)
+    gt = gt.astype(np.float32)
+    if gt.max() > 1.5:
+        gt = gt / 255.0 * 2.0 - 1.0
+    gt_t = (
+        torch.from_numpy(np.ascontiguousarray(gt))
+        .permute(2, 0, 1)
+        .unsqueeze(0)
+        .float()
+        .to(device)
+    )  # (1, 3, H, W)
+
+    mask = cv2.imread(str(mask_path), cv2.IMREAD_GRAYSCALE)
+    if mask is None:
+        return None, None
+    mask = mask > 0
+    if mask.shape[:2] != gt.shape[:2]:
+        mask = (
+            cv2.resize(
+                mask.astype(np.uint8),
+                (gt.shape[1], gt.shape[0]),
+                interpolation=cv2.INTER_NEAREST,
+            )
+            > 0
+        )
+    # pred_error is (B,1,H,W); index like evaluation_normal: pred_error[gt_norm_mask]
+    gt_norm_mask = torch.from_numpy(mask.astype(bool)).to(device)[None, None]  # (1,1,H,W)
+    return gt_t, gt_norm_mask
+
+
+def run_disc_evaluation(pipeline, data_dir: Path, val_stems: list[str], timestep: int, device):
+    """Disc data loop; scoring via shared evaluation_normal_score (stock accumulate)."""
+    from torchvision.transforms.functional import resize
+
+    total_normal_errors = None
+
+    for stem in tqdm(val_stems, desc="val", leave=False):
+        sample_dir = data_dir / stem
+        rgb_path = sample_dir / "rgb.png"
+        gt_path = sample_dir / "normal_map.png"
+        mask_path = sample_dir / "mask.png"
+        if not (rgb_path.is_file() and gt_path.is_file() and mask_path.is_file()):
+            continue
+
+        rgb = _load_rgb_for_val(rgb_path, device)
+        with torch.no_grad():
+            pred_norm = gen_normal(rgb, pipeline, prompt="", timestep=timestep)
+
+        gt_norm, gt_norm_mask = _load_gt_mask(gt_path, mask_path, device)
+        if gt_norm is None:
+            continue
+
+        if pred_norm.shape[-2:] != gt_norm.shape[-2:]:
+            pred_norm = resize(pred_norm, gt_norm.shape[-2:], antialias=True)
+
+        total_normal_errors = accumulate_normal_errors(
+            pred_norm, gt_norm, gt_norm_mask, total_normal_errors
+        )
+
+    metrics = metrics_from_errors(total_normal_errors)
+    if metrics is None:
+        return {"mean": float("inf"), "median": float("nan"), "a3": float("nan")}
+    return metrics
+
+
+def log_disc_validation(
+    vae,
+    text_encoder,
+    tokenizer,
+    unet,
+    args,
+    accelerator,
+    weight_dtype,
+    step,
+    val_stems: list[str],
+    best_state: dict,
+):
+    """Same shape as train_lotus_d.log_validation: build pipe → evaluate → cleanup."""
+    logger.info("Running disc validation at step %d (%d stems)...", step, len(val_stems))
+
+    unet_model = accelerator.unwrap_model(unet)
+    was_training = unet_model.training
+    unet_model.eval()
+
+    pipeline = build_val_pipeline(
+        vae, text_encoder, tokenizer, unet, args, accelerator, weight_dtype
+    )
+
+    metrics = run_disc_evaluation(
+        pipeline,
+        Path(args.train_data_dir),
+        val_stems,
+        timestep=args.timestep,
+        device=accelerator.device,
+    )
+
+    # same leader as train_lotus_d TOP5_STEPS_NORMAL
+    mean_value = metrics["mean"] if metrics["mean"] == metrics["mean"] else float("inf")
+
+    logger.info(
+        "Val step-%d | mean=%.3f median=%.3f a3(<11.25)=%.3f",
+        step,
+        metrics.get("mean", float("nan")),
+        metrics.get("median", float("nan")),
+        metrics.get("a3", float("nan")),
+    )
+    for tracker in accelerator.trackers:
+        if tracker.name == "tensorboard":
+            tracker.writer.add_scalar("val/mean", metrics["mean"], step)
+            tracker.writer.add_scalar("val/11.25", metrics.get("a3", float("nan")), step)
+
+    with open(os.path.join(args.output_dir, "val_history.jsonl"), "a") as f:
+        f.write(json.dumps({"step": step, **{k: float(v) for k, v in metrics.items()}}) + "\n")
+
+    if mean_value < best_state["mean"]:
+        best_state["mean"] = mean_value
+        best_state["step"] = step
+        best_dir = os.path.join(args.output_dir, "checkpoint-best")
+        os.makedirs(best_dir, exist_ok=True)
+        unet_model.save_pretrained(os.path.join(best_dir, "unet"))
+        with open(os.path.join(best_dir, "best_val.json"), "w") as f:
+            json.dump(
+                {
+                    "step": step,
+                    "mean": float(mean_value),
+                    "metrics": {k: float(v) for k, v in metrics.items()},
+                },
+                f,
+                indent=2,
+            )
+        logger.info("New best val mean=%.3f at step %d → %s", mean_value, step, best_dir)
+
+    del pipeline
+    torch.cuda.empty_cache()
+    if was_training:
+        unet_model.train()
 
 
 def freeze_unet_except_last_layers(
@@ -367,10 +572,10 @@ def main():
         with open(os.path.join(args.output_dir, "finetune_args.json"), "w") as f:
             json.dump(vars(args), f, indent=2)
 
-    train_stems, split_dir = resolve_train_stems(args)
+    train_stems, split_dir, val_stems = resolve_train_stems(args)
     if split_dir is not None and accelerator.is_main_process:
         logger.info(
-            "Using split_dir=%s (train on train_stems; tune on val; final score on test)",
+            "Using split_dir=%s (train; val→best ckpt; test via score_finaldataset --split_dir)",
             split_dir,
         )
 
@@ -491,9 +696,20 @@ def main():
     if split_dir is not None:
         logger.info(f"  Split dir = {split_dir}")
         logger.info(
-            "  Protocol: tune on val_stems.txt; report final metrics on test_stems.txt "
-            "→ all / gt_only / syn_only"
+            "  Protocol: val_stems for checkpoint-best; "
+            "score_finaldataset.py --split_dir for test_stems"
         )
+
+    do_validation = (
+        args.validation_steps > 0 and val_stems is not None and len(val_stems) > 0
+    )
+    if do_validation:
+        logger.info(
+            "  Disc validation every %d steps (%d val stems)",
+            args.validation_steps,
+            len(val_stems),
+        )
+    best_state = {"mean": float("inf"), "step": None}
 
     global_step = 0
     progress_bar = tqdm(
@@ -501,6 +717,13 @@ def main():
         desc="Steps",
         disable=not accelerator.is_local_main_process,
     )
+
+    if do_validation and accelerator.is_main_process:
+        log_disc_validation(
+            vae, text_encoder, tokenizer, unet, args, accelerator, weight_dtype,
+            0, val_stems, best_state,
+        )
+    accelerator.wait_for_everyone()
 
     for epoch in range(num_train_epochs):
         for batch in dataloader:
@@ -597,13 +820,23 @@ def main():
                             [
                                 d
                                 for d in os.listdir(args.output_dir)
-                                if d.startswith("checkpoint-")
+                                if d.startswith("checkpoint-") and d[len("checkpoint-"):].isdigit()
                             ],
                             key=lambda x: int(x.split("-")[1]),
                         )
                         while len(ckpts) > args.checkpoints_total_limit:
                             old = ckpts.pop(0)
                             shutil.rmtree(os.path.join(args.output_dir, old), ignore_errors=True)
+
+                if (
+                    do_validation
+                    and accelerator.is_main_process
+                    and global_step % args.validation_steps == 0
+                ):
+                    log_disc_validation(
+                        vae, text_encoder, tokenizer, unet, args, accelerator, weight_dtype,
+                        global_step, val_stems, best_state,
+                    )
 
             if global_step >= args.max_train_steps:
                 break
@@ -613,6 +846,16 @@ def main():
     accelerator.wait_for_everyone()
     if accelerator.is_main_process:
         unet = accelerator.unwrap_model(unet)
+        best_unet = os.path.join(args.output_dir, "checkpoint-best", "unet")
+        if best_state["step"] is not None and os.path.isdir(best_unet):
+            logger.info(
+                "Loading best-val UNet from step %s (val mean=%.3f)",
+                best_state["step"],
+                best_state["mean"],
+            )
+            unet = UNet2DConditionModel.from_pretrained(best_unet)
+            unet.to(accelerator.device, dtype=weight_dtype)
+
         pipe_cls = LotusGPipeline if args.mode == "generation" else LotusDPipeline
         pipeline = pipe_cls.from_pretrained(
             args.pretrained_model_name_or_path,
@@ -622,6 +865,11 @@ def main():
         )
         pipeline.save_pretrained(args.output_dir)
         logger.info(f"Saved full pipeline to {args.output_dir}")
+        if split_dir is not None:
+            logger.info(
+                "Final metrics: score_finaldataset.py --split_dir %s",
+                split_dir,
+            )
         logger.info(
             "Infer with: python infer.py --pretrained_model_name_or_path %s "
             "--mode %s --task_name normal ...",

@@ -6,16 +6,18 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 export TRAIN_DATA_DIR="${TRAIN_DATA_DIR:-/home/kasina/lab/3dmaterials/2d_3d_pipeline/2D_3D_pipeline/pipeline/data/smudgeremoval/finaldataset}"
-export SPLIT_DIR="${SPLIT_DIR:-${TRAIN_DATA_DIR}/splits/seed42_val20}"
-export OUTPUT_DIR="${OUTPUT_DIR:-${ROOT}/output/finetune_lotus_d_bs16_lr3e-5_2ksteps}"
-export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-1}"
+export SPLIT_DIR="${SPLIT_DIR:-${TRAIN_DATA_DIR}/splits/seed42_tvt_70_15_15}"
+export OUTPUT_DIR="${OUTPUT_DIR:-${ROOT}/output/ftlotus_d_3bk_8bs_2kstp}"
+export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-3}"
 
 if [[ ! -f "${SPLIT_DIR}/train_stems.txt" ]]; then
-  echo "Creating shared split at ${SPLIT_DIR}"
+  echo "Creating shared train/val/test split at ${SPLIT_DIR}"
   python make_finaldataset_split.py \
     --data_dir "$TRAIN_DATA_DIR" \
     --output_dir "$SPLIT_DIR" \
-    --val_ratio 0.2 \
+    --train_ratio 0.7 \
+    --val_ratio 0.15 \
+    --test_ratio 0.15 \
     --seed 42
 fi
 
@@ -26,14 +28,16 @@ python finetune_lotus_last_layers.py \
   --split_dir "$SPLIT_DIR" \
   --output_dir "$OUTPUT_DIR" \
   --resolution 576 \
-  --train_batch_size 2 \
-  --gradient_accumulation_steps 4 \
+  --train_batch_size 8 \
+  --gradient_accumulation_steps 1 \
   --random_flip \
   --max_train_steps 2000 \
   --learning_rate 3e-5 \
-  --train_last_n_up_blocks 1 \
+  --trainable_scope last_up_blocks \
+  --train_last_n_up_blocks 3 \
   --mixed_precision fp16 \
   --gradient_checkpointing \
   --allow_tf32 \
   --checkpointing_steps 500 \
+  --validation_steps "${VALIDATION_STEPS:-200}" \
   --seed 42
