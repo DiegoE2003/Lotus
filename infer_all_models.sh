@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Infer every FT checkpoint under output/model/{family}/{run}/ that lacks preds.
-# Layout (keep family folders):
-#   model/d/ftlotus_d_2bk_16bs_1kstp  →  pred/d/d_2bk_16bs_1kstp
-#   model/g/2bk_16bs_4kstp            →  pred/g/2bk_16bs_4kstp
-#   model/d_old_normal/2bk_16bs_1kstp →  pred/d_old_normal/2bk_16bs_1kstp
+# Parallel layout:
+#   model/{family}/{run}  →  pred/{family}/{run_pred}
+#   scores live separately under output/scores/{family}/{run_pred} (via score_all_pred.sh)
 # Skip if pred/.../normal/*.npy already exist unless FORCE=1.
+# Only uses model/<family>/<run>/model_index.json (not nested checkpoint copies).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
@@ -45,10 +45,10 @@ for index_json in "${index_files[@]}"; do
   model_dir="$(dirname "$index_json")"
   rel="${model_dir#"$MODEL_ROOT"/}"
 
-  # Expect model/{family}/{run}/model_index.json (ignore deeper checkpoint copies)
+  # Expect exactly model/{family}/{run}/model_index.json
   family="$(dirname "$rel")"
   run="$(basename "$rel")"
-  if [[ "$family" == "." ]]; then
+  if [[ "$family" == "." || "$family" == *"/"* ]]; then
     echo "Skip $rel (expected model/<family>/<run>/)"
     continue
   fi

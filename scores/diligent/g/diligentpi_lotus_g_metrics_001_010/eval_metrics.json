@@ -1,0 +1,3614 @@
+{
+  "dataset": "DiLiGenT-Pi",
+  "protocol": "For each object: score every lit-image prediction vs the same Normal_gt (Lotus normal_utils). Object MAE / n-RMSE = mean of per-light mean/rmse. Category / overall Avg = mean of object scores. n-RMSE = Lotus normal_utils 'rmse' (angular RMSE in degrees).",
+  "metric_source": "evaluation.util.normal_utils.compute_normal_error + compute_normal_metrics",
+  "forward_source": "score_only from output/diligentpi_lotus_g/normal",
+  "num_objects": 30,
+  "light_index": null,
+  "light_from": 1,
+  "light_to": 10,
+  "lights_per_object": {
+    "FLOWER": 10,
+    "BIRD": 10,
+    "RHINO": 10,
+    "LIONS": 10,
+    "QUEEN": 10,
+    "CRAB": 10,
+    "SHIP": 10,
+    "PARA": 10,
+    "SAIL": 10,
+    "FISH": 10,
+    "TREE": 10,
+    "OCEAN": 10,
+    "LUNG": 10,
+    "BEAR": 10,
+    "TV": 10,
+    "SUN": 10,
+    "TAICHI": 10,
+    "WAVE": 10,
+    "ASTRO": 10,
+    "WHALE": 10,
+    "BAGUA-T": 10,
+    "LOTUS-T": 10,
+    "LION-T": 10,
+    "PANDA-T": 10,
+    "CLOUD-T": 10,
+    "BAGUA-R": 10,
+    "LOTUS-R": 10,
+    "LION-R": 10,
+    "PANDA-R": 10,
+    "CLOUD-R": 10
+  },
+  "image_root": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png",
+  "gt_root": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_gt",
+  "prediction_dir": "output/diligentpi_lotus_g/normal",
+  "model": "predictions:output/diligentpi_lotus_g/normal",
+  "mode": "generation",
+  "processing_res": 0,
+  "global_mae_deg": 19.516260147094727,
+  "global_nrmse_deg": 24.716565214280653,
+  "global_median_deg": 14.832930564880371,
+  "global_a_11_25": 37.65141730653631,
+  "object_mean_mae_deg": 18.873853602409365,
+  "object_mean_nrmse_deg": 22.52898355643922,
+  "group_mean_mae_deg": {
+    "metallic": 12.175505223274232,
+    "specular": 18.59246353149414,
+    "translucent": 28.515683364868163,
+    "rough": 23.19150074005127,
+    "translucent_rough": 25.85359205245972
+  },
+  "group_mean_nrmse_deg": {
+    "metallic": 14.7454075587848,
+    "specular": 22.456568643457366,
+    "translucent": 33.090554164116355,
+    "rough": 27.679394770034612,
+    "translucent_rough": 30.384974467075484
+  },
+  "per_object_mae_deg": {
+    "FLOWER": 12.002250576019287,
+    "BIRD": 12.877291393280029,
+    "RHINO": 11.550705432891846,
+    "LIONS": 12.065922451019286,
+    "QUEEN": 11.37390203475952,
+    "CRAB": 12.63210163116455,
+    "SHIP": 12.433893489837647,
+    "PARA": 11.698323822021484,
+    "SAIL": 13.501060485839844,
+    "FISH": 11.619600915908814,
+    "TREE": 26.479235649108887,
+    "OCEAN": 14.865785884857178,
+    "LUNG": 21.563999938964844,
+    "BEAR": 10.589454746246338,
+    "TV": 20.174626922607423,
+    "SUN": 12.935026931762696,
+    "TAICHI": 18.288007164001463,
+    "WAVE": 18.395272064208985,
+    "ASTRO": 20.11071434020996,
+    "WHALE": 22.522511672973632,
+    "BAGUA-T": 24.96010570526123,
+    "LOTUS-T": 23.9162260055542,
+    "LION-T": 39.78868980407715,
+    "PANDA-T": 25.30755500793457,
+    "CLOUD-T": 28.605840301513673,
+    "BAGUA-R": 21.65411720275879,
+    "LOTUS-R": 17.670797920227052,
+    "LION-R": 34.96390380859375,
+    "PANDA-R": 19.60709991455078,
+    "CLOUD-R": 22.061584854125975
+  },
+  "per_object_nrmse_deg": {
+    "FLOWER": 15.113767641901976,
+    "BIRD": 18.15323146746026,
+    "RHINO": 14.009317412447748,
+    "LIONS": 14.779016800383934,
+    "QUEEN": 13.519692931511221,
+    "CRAB": 14.443353338308317,
+    "SHIP": 14.198132753552613,
+    "PARA": 13.85364352792476,
+    "SAIL": 16.06661601929975,
+    "FISH": 13.317303695057442,
+    "TREE": 30.740572951508767,
+    "OCEAN": 18.106344512529525,
+    "LUNG": 26.005035099341626,
+    "BEAR": 12.654143385184213,
+    "TV": 26.050203691914515,
+    "SUN": 16.830512320764896,
+    "TAICHI": 21.885696284323206,
+    "WAVE": 21.801020091559746,
+    "ASTRO": 24.000275696403847,
+    "WHALE": 26.491882401043323,
+    "BAGUA-T": 29.307282047194263,
+    "LOTUS-T": 28.579399795133572,
+    "LION-T": 45.87551112310972,
+    "PANDA-T": 29.54057857259947,
+    "CLOUD-T": 32.149999282544776,
+    "BAGUA-R": 26.057731094708384,
+    "LOTUS-R": 23.102137965879756,
+    "LION-R": 39.828692887023585,
+    "PANDA-R": 23.8488305596233,
+    "CLOUD-R": 25.55958134293804
+  },
+  "per_object": {
+    "FLOWER": {
+      "mae_deg": 12.002250576019287,
+      "nrmse_deg": 15.113767641901976,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 11.239566802978516,
+        "002": 11.999207496643066,
+        "003": 8.355249404907227,
+        "004": 12.809675216674805,
+        "005": 13.494650840759277,
+        "006": 14.521339416503906,
+        "007": 10.034083366394043,
+        "008": 11.50476360321045,
+        "009": 13.147772789001465,
+        "010": 12.916196823120117
+      },
+      "per_light_nrmse_deg": {
+        "001": 15.678798635872022,
+        "002": 16.393291155940236,
+        "003": 11.062863443534699,
+        "004": 16.215156109732366,
+        "005": 16.896495291890698,
+        "006": 16.747820584095713,
+        "007": 12.603330235571025,
+        "008": 14.277047009673613,
+        "009": 15.603832099849066,
+        "010": 15.659041852860314
+      },
+      "median_deg": 9.930551528930664,
+      "a_11_25": 58.404146806930456,
+      "pixel_pooled_mae_deg": 12.002256393432617,
+      "pixel_pooled_nrmse_deg": 15.222441375102475,
+      "num_pixels": 4254840,
+      "per_light": {
+        "001": {
+          "mae_deg": 11.239566802978516,
+          "nrmse_deg": 15.678798635872022,
+          "median_deg": 7.564755439758301,
+          "a_11_25": 64.33943462033825,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/001.png"
+        },
+        "002": {
+          "mae_deg": 11.999207496643066,
+          "nrmse_deg": 16.393291155940236,
+          "median_deg": 8.407245635986328,
+          "a_11_25": 60.8582226358688,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/002.png"
+        },
+        "003": {
+          "mae_deg": 8.355249404907227,
+          "nrmse_deg": 11.062863443534699,
+          "median_deg": 6.250874996185303,
+          "a_11_25": 78.29930150134905,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/003.png"
+        },
+        "004": {
+          "mae_deg": 12.809675216674805,
+          "nrmse_deg": 16.215156109732366,
+          "median_deg": 10.292333602905273,
+          "a_11_25": 56.77581295653891,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/004.png"
+        },
+        "005": {
+          "mae_deg": 13.494650840759277,
+          "nrmse_deg": 16.896495291890698,
+          "median_deg": 10.527081489562988,
+          "a_11_25": 54.66927075988757,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/005.png"
+        },
+        "006": {
+          "mae_deg": 14.521339416503906,
+          "nrmse_deg": 16.747820584095713,
+          "median_deg": 12.768274307250977,
+          "a_11_25": 36.93487886736047,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/006.png"
+        },
+        "007": {
+          "mae_deg": 10.034083366394043,
+          "nrmse_deg": 12.603330235571025,
+          "median_deg": 8.110843658447266,
+          "a_11_25": 70.11379981385905,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/007.png"
+        },
+        "008": {
+          "mae_deg": 11.50476360321045,
+          "nrmse_deg": 14.277047009673613,
+          "median_deg": 9.28434944152832,
+          "a_11_25": 63.88630359778511,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/008.png"
+        },
+        "009": {
+          "mae_deg": 13.147772789001465,
+          "nrmse_deg": 15.603832099849066,
+          "median_deg": 11.590469360351562,
+          "a_11_25": 46.89083490801064,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/009.png"
+        },
+        "010": {
+          "mae_deg": 12.916196823120117,
+          "nrmse_deg": 15.659041852860314,
+          "median_deg": 11.104842185974121,
+          "a_11_25": 51.27360840830677,
+          "num_pixels": 425484,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Flower/010.png"
+        }
+      }
+    },
+    "BIRD": {
+      "mae_deg": 12.877291393280029,
+      "nrmse_deg": 18.15323146746026,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 12.507091522216797,
+        "002": 13.006190299987793,
+        "003": 11.285347938537598,
+        "004": 12.765304565429688,
+        "005": 13.442631721496582,
+        "006": 13.898541450500488,
+        "007": 11.32677936553955,
+        "008": 12.9949951171875,
+        "009": 15.150947570800781,
+        "010": 12.395084381103516
+      },
+      "per_light_nrmse_deg": {
+        "001": 18.59867620012302,
+        "002": 19.12626317264348,
+        "003": 16.37612684626589,
+        "004": 18.901232611689938,
+        "005": 18.95169153708415,
+        "006": 18.579259545316393,
+        "007": 16.13287152193906,
+        "008": 17.925898348488023,
+        "009": 19.473112958244048,
+        "010": 17.467181932808558
+      },
+      "median_deg": 8.306548118591309,
+      "a_11_25": 65.93395688041828,
+      "pixel_pooled_mae_deg": 12.877293586730957,
+      "pixel_pooled_nrmse_deg": 18.186326711297834,
+      "num_pixels": 4766280,
+      "per_light": {
+        "001": {
+          "mae_deg": 12.507091522216797,
+          "nrmse_deg": 18.59867620012302,
+          "median_deg": 7.024105072021484,
+          "a_11_25": 66.79653734149063,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/001.png"
+        },
+        "002": {
+          "mae_deg": 13.006190299987793,
+          "nrmse_deg": 19.12626317264348,
+          "median_deg": 7.420489311218262,
+          "a_11_25": 65.62581300301284,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/002.png"
+        },
+        "003": {
+          "mae_deg": 11.285347938537598,
+          "nrmse_deg": 16.37612684626589,
+          "median_deg": 6.803036689758301,
+          "a_11_25": 71.58454811718993,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/003.png"
+        },
+        "004": {
+          "mae_deg": 12.765304565429688,
+          "nrmse_deg": 18.901232611689938,
+          "median_deg": 7.336871147155762,
+          "a_11_25": 66.83283399212804,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/004.png"
+        },
+        "005": {
+          "mae_deg": 13.442631721496582,
+          "nrmse_deg": 18.95169153708415,
+          "median_deg": 8.357852935791016,
+          "a_11_25": 65.07527883380749,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/005.png"
+        },
+        "006": {
+          "mae_deg": 13.898541450500488,
+          "nrmse_deg": 18.579259545316393,
+          "median_deg": 9.439640045166016,
+          "a_11_25": 62.86349102444674,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/006.png"
+        },
+        "007": {
+          "mae_deg": 11.32677936553955,
+          "nrmse_deg": 16.13287152193906,
+          "median_deg": 7.107739448547363,
+          "a_11_25": 72.58805609406079,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/007.png"
+        },
+        "008": {
+          "mae_deg": 12.9949951171875,
+          "nrmse_deg": 17.925898348488023,
+          "median_deg": 8.387428283691406,
+          "a_11_25": 66.09641061792425,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/008.png"
+        },
+        "009": {
+          "mae_deg": 15.150947570800781,
+          "nrmse_deg": 19.473112958244048,
+          "median_deg": 10.9801025390625,
+          "a_11_25": 52.52796730364141,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/009.png"
+        },
+        "010": {
+          "mae_deg": 12.395084381103516,
+          "nrmse_deg": 17.467181932808558,
+          "median_deg": 7.91594123840332,
+          "a_11_25": 69.3486324764806,
+          "num_pixels": 476628,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bird/010.png"
+        }
+      }
+    },
+    "RHINO": {
+      "mae_deg": 11.550705432891846,
+      "nrmse_deg": 14.009317412447748,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 11.521873474121094,
+        "002": 10.873076438903809,
+        "003": 11.188684463500977,
+        "004": 11.850700378417969,
+        "005": 11.318486213684082,
+        "006": 11.488903999328613,
+        "007": 12.431099891662598,
+        "008": 11.775344848632812,
+        "009": 12.051109313964844,
+        "010": 11.00777530670166
+      },
+      "per_light_nrmse_deg": {
+        "001": 14.288859761743147,
+        "002": 14.175254915526772,
+        "003": 13.923335897716239,
+        "004": 14.001490847480023,
+        "005": 13.637751706118284,
+        "006": 13.742648353239398,
+        "007": 14.482578513989818,
+        "008": 14.160278296577198,
+        "009": 14.25688002343537,
+        "010": 13.424095808651222
+      },
+      "median_deg": 9.226755142211914,
+      "a_11_25": 66.03495172832444,
+      "pixel_pooled_mae_deg": 11.55070686340332,
+      "pixel_pooled_nrmse_deg": 14.012790223505332,
+      "num_pixels": 2569830,
+      "per_light": {
+        "001": {
+          "mae_deg": 11.521873474121094,
+          "nrmse_deg": 14.288859761743147,
+          "median_deg": 8.480587005615234,
+          "a_11_25": 65.46736554558083,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/001.png"
+        },
+        "002": {
+          "mae_deg": 10.873076438903809,
+          "nrmse_deg": 14.175254915526772,
+          "median_deg": 7.523160934448242,
+          "a_11_25": 66.75461022713564,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/002.png"
+        },
+        "003": {
+          "mae_deg": 11.188684463500977,
+          "nrmse_deg": 13.923335897716239,
+          "median_deg": 8.429046630859375,
+          "a_11_25": 66.99898436861582,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/003.png"
+        },
+        "004": {
+          "mae_deg": 11.850700378417969,
+          "nrmse_deg": 14.001490847480023,
+          "median_deg": 9.73257827758789,
+          "a_11_25": 65.00391076452527,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/004.png"
+        },
+        "005": {
+          "mae_deg": 11.318486213684082,
+          "nrmse_deg": 13.637751706118284,
+          "median_deg": 9.060090065002441,
+          "a_11_25": 68.33058996120366,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/005.png"
+        },
+        "006": {
+          "mae_deg": 11.488903999328613,
+          "nrmse_deg": 13.742648353239398,
+          "median_deg": 9.397997856140137,
+          "a_11_25": 68.31930516804614,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/006.png"
+        },
+        "007": {
+          "mae_deg": 12.431099891662598,
+          "nrmse_deg": 14.482578513989818,
+          "median_deg": 10.409493446350098,
+          "a_11_25": 58.9498138009129,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/007.png"
+        },
+        "008": {
+          "mae_deg": 11.775344848632812,
+          "nrmse_deg": 14.160278296577198,
+          "median_deg": 9.320022583007812,
+          "a_11_25": 64.10112731192335,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/008.png"
+        },
+        "009": {
+          "mae_deg": 12.051109313964844,
+          "nrmse_deg": 14.25688002343537,
+          "median_deg": 9.676663398742676,
+          "a_11_25": 65.44362856687019,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/009.png"
+        },
+        "010": {
+          "mae_deg": 11.00777530670166,
+          "nrmse_deg": 13.424095808651222,
+          "median_deg": 8.443502426147461,
+          "a_11_25": 70.9801815684306,
+          "num_pixels": 256983,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Rhino/010.png"
+        }
+      }
+    },
+    "LIONS": {
+      "mae_deg": 12.065922451019286,
+      "nrmse_deg": 14.779016800383934,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 10.49749755859375,
+        "002": 10.876924514770508,
+        "003": 9.32388687133789,
+        "004": 13.019159317016602,
+        "005": 13.241340637207031,
+        "006": 13.359482765197754,
+        "007": 12.897150039672852,
+        "008": 11.971789360046387,
+        "009": 12.131401062011719,
+        "010": 13.340592384338379
+      },
+      "per_light_nrmse_deg": {
+        "001": 13.956545454173057,
+        "002": 14.311474916962224,
+        "003": 12.356061384372229,
+        "004": 15.82642339757662,
+        "005": 15.817424083171284,
+        "006": 15.646299488414853,
+        "007": 14.99260244318894,
+        "008": 14.2748041576537,
+        "009": 14.847266962947351,
+        "010": 15.761265715379107
+      },
+      "median_deg": 10.13195514678955,
+      "a_11_25": 59.55540859482663,
+      "pixel_pooled_mae_deg": 12.065923690795898,
+      "pixel_pooled_nrmse_deg": 14.816058350765964,
+      "num_pixels": 2525240,
+      "per_light": {
+        "001": {
+          "mae_deg": 10.49749755859375,
+          "nrmse_deg": 13.956545454173057,
+          "median_deg": 7.465662002563477,
+          "a_11_25": 72.80139709492958,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/001.png"
+        },
+        "002": {
+          "mae_deg": 10.876924514770508,
+          "nrmse_deg": 14.311474916962224,
+          "median_deg": 7.8885297775268555,
+          "a_11_25": 72.576071977317,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/002.png"
+        },
+        "003": {
+          "mae_deg": 9.32388687133789,
+          "nrmse_deg": 12.356061384372229,
+          "median_deg": 6.740535736083984,
+          "a_11_25": 77.55738068460819,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/003.png"
+        },
+        "004": {
+          "mae_deg": 13.019159317016602,
+          "nrmse_deg": 15.82642339757662,
+          "median_deg": 11.006080627441406,
+          "a_11_25": 52.370863759484244,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/004.png"
+        },
+        "005": {
+          "mae_deg": 13.241340637207031,
+          "nrmse_deg": 15.817424083171284,
+          "median_deg": 11.235023498535156,
+          "a_11_25": 50.147312730671146,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/005.png"
+        },
+        "006": {
+          "mae_deg": 13.359482765197754,
+          "nrmse_deg": 15.646299488414853,
+          "median_deg": 11.536760330200195,
+          "a_11_25": 46.72704376613708,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/006.png"
+        },
+        "007": {
+          "mae_deg": 12.897150039672852,
+          "nrmse_deg": 14.99260244318894,
+          "median_deg": 11.305068969726562,
+          "a_11_25": 49.41391709302878,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/007.png"
+        },
+        "008": {
+          "mae_deg": 11.971789360046387,
+          "nrmse_deg": 14.2748041576537,
+          "median_deg": 10.139117240905762,
+          "a_11_25": 61.83214268742773,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/008.png"
+        },
+        "009": {
+          "mae_deg": 12.131401062011719,
+          "nrmse_deg": 14.847266962947351,
+          "median_deg": 9.981592178344727,
+          "a_11_25": 62.65463876700829,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/009.png"
+        },
+        "010": {
+          "mae_deg": 13.340592384338379,
+          "nrmse_deg": 15.761265715379107,
+          "median_deg": 11.299449920654297,
+          "a_11_25": 49.47331738765424,
+          "num_pixels": 252524,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lions/010.png"
+        }
+      }
+    },
+    "QUEEN": {
+      "mae_deg": 11.37390203475952,
+      "nrmse_deg": 13.519692931511221,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 10.428338050842285,
+        "002": 10.655020713806152,
+        "003": 10.189420700073242,
+        "004": 12.554920196533203,
+        "005": 13.866174697875977,
+        "006": 11.115537643432617,
+        "007": 10.67538833618164,
+        "008": 11.771622657775879,
+        "009": 10.421000480651855,
+        "010": 12.061596870422363
+      },
+      "per_light_nrmse_deg": {
+        "001": 12.841645212826942,
+        "002": 13.098297087247689,
+        "003": 12.157516137596296,
+        "004": 14.691167064483832,
+        "005": 15.90656078376354,
+        "006": 12.838745900351231,
+        "007": 13.178977300267908,
+        "008": 14.243151109895805,
+        "009": 12.332682243066841,
+        "010": 13.908186475612121
+      },
+      "median_deg": 9.512635231018066,
+      "a_11_25": 63.957711275440765,
+      "pixel_pooled_mae_deg": 11.373902320861816,
+      "pixel_pooled_nrmse_deg": 13.564827517228345,
+      "num_pixels": 1932430,
+      "per_light": {
+        "001": {
+          "mae_deg": 10.428338050842285,
+          "nrmse_deg": 12.841645212826942,
+          "median_deg": 8.327607154846191,
+          "a_11_25": 71.5782719167059,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/001.png"
+        },
+        "002": {
+          "mae_deg": 10.655020713806152,
+          "nrmse_deg": 13.098297087247689,
+          "median_deg": 8.355667114257812,
+          "a_11_25": 67.66299426111165,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/002.png"
+        },
+        "003": {
+          "mae_deg": 10.189420700073242,
+          "nrmse_deg": 12.157516137596296,
+          "median_deg": 8.597655296325684,
+          "a_11_25": 72.43677649384453,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/003.png"
+        },
+        "004": {
+          "mae_deg": 12.554920196533203,
+          "nrmse_deg": 14.691167064483832,
+          "median_deg": 10.610998153686523,
+          "a_11_25": 55.94665783495392,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/004.png"
+        },
+        "005": {
+          "mae_deg": 13.866174697875977,
+          "nrmse_deg": 15.90656078376354,
+          "median_deg": 12.010746955871582,
+          "a_11_25": 42.12468239470511,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/005.png"
+        },
+        "006": {
+          "mae_deg": 11.115537643432617,
+          "nrmse_deg": 12.838745900351231,
+          "median_deg": 9.692680358886719,
+          "a_11_25": 67.23348323095792,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/006.png"
+        },
+        "007": {
+          "mae_deg": 10.67538833618164,
+          "nrmse_deg": 13.178977300267908,
+          "median_deg": 8.314604759216309,
+          "a_11_25": 69.15748565277914,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/007.png"
+        },
+        "008": {
+          "mae_deg": 11.771622657775879,
+          "nrmse_deg": 14.243151109895805,
+          "median_deg": 9.247795104980469,
+          "a_11_25": 62.53473605770973,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/008.png"
+        },
+        "009": {
+          "mae_deg": 10.421000480651855,
+          "nrmse_deg": 12.332682243066841,
+          "median_deg": 8.813874244689941,
+          "a_11_25": 72.92424563891059,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/009.png"
+        },
+        "010": {
+          "mae_deg": 12.061596870422363,
+          "nrmse_deg": 13.908186475612121,
+          "median_deg": 10.455153465270996,
+          "a_11_25": 57.97777927272916,
+          "num_pixels": 193243,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Queen/010.png"
+        }
+      }
+    },
+    "CRAB": {
+      "mae_deg": 12.63210163116455,
+      "nrmse_deg": 14.443353338308317,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 11.0355863571167,
+        "002": 11.290263175964355,
+        "003": 9.931314468383789,
+        "004": 13.176380157470703,
+        "005": 11.987932205200195,
+        "006": 12.614118576049805,
+        "007": 12.364232063293457,
+        "008": 11.582707405090332,
+        "009": 15.57052993774414,
+        "010": 16.76795196533203
+      },
+      "per_light_nrmse_deg": {
+        "001": 13.80593060530754,
+        "002": 13.743747727477,
+        "003": 12.123816758476789,
+        "004": 14.733927650569353,
+        "005": 13.84529255079354,
+        "006": 14.109027159252792,
+        "007": 13.97485220594499,
+        "008": 13.241964500134877,
+        "009": 16.78436500979582,
+        "010": 18.07060921533047
+      },
+      "median_deg": 11.234768867492676,
+      "a_11_25": 50.11747286990755,
+      "pixel_pooled_mae_deg": 12.632097244262695,
+      "pixel_pooled_nrmse_deg": 14.536965640820975,
+      "num_pixels": 1742530,
+      "per_light": {
+        "001": {
+          "mae_deg": 11.0355863571167,
+          "nrmse_deg": 13.80593060530754,
+          "median_deg": 8.2439546585083,
+          "a_11_25": 66.27489914090432,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/001.png"
+        },
+        "002": {
+          "mae_deg": 11.290263175964355,
+          "nrmse_deg": 13.743747727477,
+          "median_deg": 8.854679107666016,
+          "a_11_25": 65.9414758999845,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/002.png"
+        },
+        "003": {
+          "mae_deg": 9.931314468383789,
+          "nrmse_deg": 12.123816758476789,
+          "median_deg": 8.058514595031738,
+          "a_11_25": 75.26929235077732,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/003.png"
+        },
+        "004": {
+          "mae_deg": 13.176380157470703,
+          "nrmse_deg": 14.733927650569353,
+          "median_deg": 11.7322998046875,
+          "a_11_25": 44.13066059120933,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/004.png"
+        },
+        "005": {
+          "mae_deg": 11.987932205200195,
+          "nrmse_deg": 13.84529255079354,
+          "median_deg": 10.251847267150879,
+          "a_11_25": 60.0356952247594,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/005.png"
+        },
+        "006": {
+          "mae_deg": 12.614118576049805,
+          "nrmse_deg": 14.109027159252792,
+          "median_deg": 11.347654342651367,
+          "a_11_25": 48.723981796583125,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/006.png"
+        },
+        "007": {
+          "mae_deg": 12.364232063293457,
+          "nrmse_deg": 13.97485220594499,
+          "median_deg": 11.023390769958496,
+          "a_11_25": 52.86393921481983,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/007.png"
+        },
+        "008": {
+          "mae_deg": 11.582707405090332,
+          "nrmse_deg": 13.241964500134877,
+          "median_deg": 10.185358047485352,
+          "a_11_25": 62.57568018915026,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/008.png"
+        },
+        "009": {
+          "mae_deg": 15.57052993774414,
+          "nrmse_deg": 16.78436500979582,
+          "median_deg": 14.576485633850098,
+          "a_11_25": 14.736618594801811,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/009.png"
+        },
+        "010": {
+          "mae_deg": 16.76795196533203,
+          "nrmse_deg": 18.07060921533047,
+          "median_deg": 15.731928825378418,
+          "a_11_25": 10.622485696085576,
+          "num_pixels": 174253,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Crab/010.png"
+        }
+      }
+    },
+    "SHIP": {
+      "mae_deg": 12.433893489837647,
+      "nrmse_deg": 14.198132753552613,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 10.612738609313965,
+        "002": 11.321200370788574,
+        "003": 9.531639099121094,
+        "004": 13.405438423156738,
+        "005": 14.60660171508789,
+        "006": 13.572075843811035,
+        "007": 11.496705055236816,
+        "008": 12.560816764831543,
+        "009": 13.896268844604492,
+        "010": 13.335450172424316
+      },
+      "per_light_nrmse_deg": {
+        "001": 13.071727216927446,
+        "002": 13.117462249940479,
+        "003": 11.616903133018296,
+        "004": 15.312775429838636,
+        "005": 15.734434620720988,
+        "006": 14.873945618801956,
+        "007": 13.491130521800336,
+        "008": 14.457064993492573,
+        "009": 15.634307074518485,
+        "010": 14.671576676466952
+      },
+      "median_deg": 10.9530668258667,
+      "a_11_25": 53.21058187555102,
+      "pixel_pooled_mae_deg": 12.43388843536377,
+      "pixel_pooled_nrmse_deg": 14.254410335190668,
+      "num_pixels": 1724080,
+      "per_light": {
+        "001": {
+          "mae_deg": 10.612738609313965,
+          "nrmse_deg": 13.071727216927446,
+          "median_deg": 8.125391006469727,
+          "a_11_25": 73.95886501786461,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/001.png"
+        },
+        "002": {
+          "mae_deg": 11.321200370788574,
+          "nrmse_deg": 13.117462249940479,
+          "median_deg": 9.337130546569824,
+          "a_11_25": 69.48517470186998,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/002.png"
+        },
+        "003": {
+          "mae_deg": 9.531639099121094,
+          "nrmse_deg": 11.616903133018296,
+          "median_deg": 7.437789440155029,
+          "a_11_25": 77.06196928216788,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/003.png"
+        },
+        "004": {
+          "mae_deg": 13.405438423156738,
+          "nrmse_deg": 15.312775429838636,
+          "median_deg": 11.502558708190918,
+          "a_11_25": 45.90158229316505,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/004.png"
+        },
+        "005": {
+          "mae_deg": 14.60660171508789,
+          "nrmse_deg": 15.734434620720988,
+          "median_deg": 13.18847942352295,
+          "a_11_25": 20.398705396501324,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/005.png"
+        },
+        "006": {
+          "mae_deg": 13.572075843811035,
+          "nrmse_deg": 14.873945618801956,
+          "median_deg": 12.020244598388672,
+          "a_11_25": 36.96406199248295,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/006.png"
+        },
+        "007": {
+          "mae_deg": 11.496705055236816,
+          "nrmse_deg": 13.491130521800336,
+          "median_deg": 9.390581130981445,
+          "a_11_25": 69.88306807108718,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/007.png"
+        },
+        "008": {
+          "mae_deg": 12.560816764831543,
+          "nrmse_deg": 14.457064993492573,
+          "median_deg": 10.592676162719727,
+          "a_11_25": 58.97464154795601,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/008.png"
+        },
+        "009": {
+          "mae_deg": 13.896268844604492,
+          "nrmse_deg": 15.634307074518485,
+          "median_deg": 12.012840270996094,
+          "a_11_25": 38.225604380307175,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/009.png"
+        },
+        "010": {
+          "mae_deg": 13.335450172424316,
+          "nrmse_deg": 14.671576676466952,
+          "median_deg": 11.79788875579834,
+          "a_11_25": 41.25214607210802,
+          "num_pixels": 172408,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ship/010.png"
+        }
+      }
+    },
+    "PARA": {
+      "mae_deg": 11.698323822021484,
+      "nrmse_deg": 13.85364352792476,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 11.278203010559082,
+        "002": 11.654345512390137,
+        "003": 9.56128215789795,
+        "004": 11.726401329040527,
+        "005": 11.02033805847168,
+        "006": 11.55358600616455,
+        "007": 12.130071640014648,
+        "008": 12.185591697692871,
+        "009": 13.53042221069336,
+        "010": 12.342996597290039
+      },
+      "per_light_nrmse_deg": {
+        "001": 13.852818226452976,
+        "002": 14.082691806633607,
+        "003": 12.32590163629498,
+        "004": 13.559642938646023,
+        "005": 13.367353703467755,
+        "006": 13.967297703828775,
+        "007": 14.034025667888558,
+        "008": 14.371593598960773,
+        "009": 15.045029670198694,
+        "010": 13.930080326875455
+      },
+      "median_deg": 10.308893203735352,
+      "a_11_25": 58.78833684712996,
+      "pixel_pooled_mae_deg": 11.698320388793945,
+      "pixel_pooled_nrmse_deg": 13.869687259301495,
+      "num_pixels": 2011120,
+      "per_light": {
+        "001": {
+          "mae_deg": 11.278203010559082,
+          "nrmse_deg": 13.852818226452976,
+          "median_deg": 9.017711639404297,
+          "a_11_25": 64.94888420382672,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/001.png"
+        },
+        "002": {
+          "mae_deg": 11.654345512390137,
+          "nrmse_deg": 14.082691806633607,
+          "median_deg": 10.06014633178711,
+          "a_11_25": 62.800330164286564,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/002.png"
+        },
+        "003": {
+          "mae_deg": 9.56128215789795,
+          "nrmse_deg": 12.32590163629498,
+          "median_deg": 7.130789279937744,
+          "a_11_25": 72.55907156211464,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/003.png"
+        },
+        "004": {
+          "mae_deg": 11.726401329040527,
+          "nrmse_deg": 13.559642938646023,
+          "median_deg": 10.504634857177734,
+          "a_11_25": 58.82642507657425,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/004.png"
+        },
+        "005": {
+          "mae_deg": 11.02033805847168,
+          "nrmse_deg": 13.367353703467755,
+          "median_deg": 9.255855560302734,
+          "a_11_25": 68.58864712200166,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/005.png"
+        },
+        "006": {
+          "mae_deg": 11.55358600616455,
+          "nrmse_deg": 13.967297703828775,
+          "median_deg": 9.791060447692871,
+          "a_11_25": 65.25368948645531,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/006.png"
+        },
+        "007": {
+          "mae_deg": 12.130071640014648,
+          "nrmse_deg": 14.034025667888558,
+          "median_deg": 11.051681518554688,
+          "a_11_25": 52.456342734396756,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/007.png"
+        },
+        "008": {
+          "mae_deg": 12.185591697692871,
+          "nrmse_deg": 14.371593598960773,
+          "median_deg": 10.491825103759766,
+          "a_11_25": 57.65841918930745,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/008.png"
+        },
+        "009": {
+          "mae_deg": 13.53042221069336,
+          "nrmse_deg": 15.045029670198694,
+          "median_deg": 12.674238204956055,
+          "a_11_25": 33.70858029356776,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/009.png"
+        },
+        "010": {
+          "mae_deg": 12.342996597290039,
+          "nrmse_deg": 13.930080326875455,
+          "median_deg": 11.161721229553223,
+          "a_11_25": 51.08297863876845,
+          "num_pixels": 201112,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Para/010.png"
+        }
+      }
+    },
+    "SAIL": {
+      "mae_deg": 13.501060485839844,
+      "nrmse_deg": 16.06661601929975,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 12.665812492370605,
+        "002": 13.675873756408691,
+        "003": 9.44836711883545,
+        "004": 13.124475479125977,
+        "005": 15.039912223815918,
+        "006": 15.220253944396973,
+        "007": 10.227560043334961,
+        "008": 14.650348663330078,
+        "009": 14.41181468963623,
+        "010": 16.546186447143555
+      },
+      "per_light_nrmse_deg": {
+        "001": 15.60506788768792,
+        "002": 16.578426968321253,
+        "003": 12.64622454339234,
+        "004": 15.497182040556961,
+        "005": 17.702552151573954,
+        "006": 17.615997622709546,
+        "007": 12.911736886144807,
+        "008": 16.86791460181453,
+        "009": 16.610532632429006,
+        "010": 18.630524858367213
+      },
+      "median_deg": 11.609126091003418,
+      "a_11_25": 47.15015976619913,
+      "pixel_pooled_mae_deg": 13.50106143951416,
+      "pixel_pooled_nrmse_deg": 16.175299490232394,
+      "num_pixels": 2932410,
+      "per_light": {
+        "001": {
+          "mae_deg": 12.665812492370605,
+          "nrmse_deg": 15.60506788768792,
+          "median_deg": 9.651110649108887,
+          "a_11_25": 59.31810353940956,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/001.png"
+        },
+        "002": {
+          "mae_deg": 13.675873756408691,
+          "nrmse_deg": 16.578426968321253,
+          "median_deg": 10.387354850769043,
+          "a_11_25": 56.56473685466903,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/002.png"
+        },
+        "003": {
+          "mae_deg": 9.44836711883545,
+          "nrmse_deg": 12.64622454339234,
+          "median_deg": 6.5311384201049805,
+          "a_11_25": 71.9513983378859,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/003.png"
+        },
+        "004": {
+          "mae_deg": 13.124475479125977,
+          "nrmse_deg": 15.497182040556961,
+          "median_deg": 10.624341011047363,
+          "a_11_25": 55.78039905743057,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/004.png"
+        },
+        "005": {
+          "mae_deg": 15.039912223815918,
+          "nrmse_deg": 17.702552151573954,
+          "median_deg": 12.27964973449707,
+          "a_11_25": 37.67140338492912,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/005.png"
+        },
+        "006": {
+          "mae_deg": 15.220253944396973,
+          "nrmse_deg": 17.615997622709546,
+          "median_deg": 12.915075302124023,
+          "a_11_25": 29.53918449330073,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/006.png"
+        },
+        "007": {
+          "mae_deg": 10.227560043334961,
+          "nrmse_deg": 12.911736886144807,
+          "median_deg": 7.540538787841797,
+          "a_11_25": 71.10772368120419,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/007.png"
+        },
+        "008": {
+          "mae_deg": 14.650348663330078,
+          "nrmse_deg": 16.86791460181453,
+          "median_deg": 12.5237398147583,
+          "a_11_25": 33.527030667607875,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/008.png"
+        },
+        "009": {
+          "mae_deg": 14.41181468963623,
+          "nrmse_deg": 16.610532632429006,
+          "median_deg": 12.10523796081543,
+          "a_11_25": 39.845724165447535,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/009.png"
+        },
+        "010": {
+          "mae_deg": 16.546186447143555,
+          "nrmse_deg": 18.630524858367213,
+          "median_deg": 14.686469078063965,
+          "a_11_25": 16.195893480106808,
+          "num_pixels": 293241,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sail/010.png"
+        }
+      }
+    },
+    "FISH": {
+      "mae_deg": 11.619600915908814,
+      "nrmse_deg": 13.317303695057442,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 10.442924499511719,
+        "002": 12.188692092895508,
+        "003": 7.653295040130615,
+        "004": 9.632375717163086,
+        "005": 13.078987121582031,
+        "006": 13.412202835083008,
+        "007": 9.205747604370117,
+        "008": 12.441946983337402,
+        "009": 14.545035362243652,
+        "010": 13.594801902770996
+      },
+      "per_light_nrmse_deg": {
+        "001": 12.14971679620548,
+        "002": 13.964535670872275,
+        "003": 9.453658916664335,
+        "004": 11.245212267750732,
+        "005": 14.258925993654513,
+        "006": 15.232737384468743,
+        "007": 10.890323057217097,
+        "008": 13.992790763674046,
+        "009": 16.61680336916275,
+        "010": 15.368332730904436
+      },
+      "median_deg": 10.349803924560547,
+      "a_11_25": 55.636131327331896,
+      "pixel_pooled_mae_deg": 11.619603157043457,
+      "pixel_pooled_nrmse_deg": 13.492606864881695,
+      "num_pixels": 2574940,
+      "per_light": {
+        "001": {
+          "mae_deg": 10.442924499511719,
+          "nrmse_deg": 12.14971679620548,
+          "median_deg": 8.854157447814941,
+          "a_11_25": 68.77286461043752,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/001.png"
+        },
+        "002": {
+          "mae_deg": 12.188692092895508,
+          "nrmse_deg": 13.964535670872275,
+          "median_deg": 10.891000747680664,
+          "a_11_25": 52.455591198241514,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/002.png"
+        },
+        "003": {
+          "mae_deg": 7.653295040130615,
+          "nrmse_deg": 9.453658916664335,
+          "median_deg": 6.048894882202148,
+          "a_11_25": 82.85746463995277,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/003.png"
+        },
+        "004": {
+          "mae_deg": 9.632375717163086,
+          "nrmse_deg": 11.245212267750732,
+          "median_deg": 8.318536758422852,
+          "a_11_25": 74.69455598965413,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/004.png"
+        },
+        "005": {
+          "mae_deg": 13.078987121582031,
+          "nrmse_deg": 14.258925993654513,
+          "median_deg": 12.293892860412598,
+          "a_11_25": 36.40045981653942,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/005.png"
+        },
+        "006": {
+          "mae_deg": 13.412202835083008,
+          "nrmse_deg": 15.232737384468743,
+          "median_deg": 13.304581642150879,
+          "a_11_25": 39.76131482675325,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/006.png"
+        },
+        "007": {
+          "mae_deg": 9.205747604370117,
+          "nrmse_deg": 10.890323057217097,
+          "median_deg": 7.895034313201904,
+          "a_11_25": 75.17728568432662,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/007.png"
+        },
+        "008": {
+          "mae_deg": 12.441946983337402,
+          "nrmse_deg": 13.992790763674046,
+          "median_deg": 11.29686164855957,
+          "a_11_25": 49.59882560370339,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/008.png"
+        },
+        "009": {
+          "mae_deg": 14.545035362243652,
+          "nrmse_deg": 16.61680336916275,
+          "median_deg": 14.143807411193848,
+          "a_11_25": 37.55427310927633,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/009.png"
+        },
+        "010": {
+          "mae_deg": 13.594801902770996,
+          "nrmse_deg": 15.368332730904436,
+          "median_deg": 13.282726287841797,
+          "a_11_25": 39.08867779443405,
+          "num_pixels": 257494,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Fish/010.png"
+        }
+      }
+    },
+    "TREE": {
+      "mae_deg": 26.479235649108887,
+      "nrmse_deg": 30.740572951508767,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 26.458335876464844,
+        "002": 26.163700103759766,
+        "003": 26.566417694091797,
+        "004": 27.915027618408203,
+        "005": 26.529672622680664,
+        "006": 25.52802085876465,
+        "007": 28.67852210998535,
+        "008": 25.172300338745117,
+        "009": 25.458797454833984,
+        "010": 26.321561813354492
+      },
+      "per_light_nrmse_deg": {
+        "001": 30.658095228159752,
+        "002": 30.390132403878617,
+        "003": 30.52788845659658,
+        "004": 32.23163655330546,
+        "005": 30.89747034585456,
+        "006": 29.853450272250896,
+        "007": 32.67522408114203,
+        "008": 29.504700548405637,
+        "009": 29.91563903524123,
+        "010": 30.751492590252926
+      },
+      "median_deg": 23.036346435546875,
+      "a_11_25": 15.392448848547819,
+      "pixel_pooled_mae_deg": 26.479219436645508,
+      "pixel_pooled_nrmse_deg": 30.75547089082638,
+      "num_pixels": 3099130,
+      "per_light": {
+        "001": {
+          "mae_deg": 26.458335876464844,
+          "nrmse_deg": 30.658095228159752,
+          "median_deg": 23.708332061767578,
+          "a_11_25": 16.832465885587244,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/001.png"
+        },
+        "002": {
+          "mae_deg": 26.163700103759766,
+          "nrmse_deg": 30.390132403878617,
+          "median_deg": 22.47190284729004,
+          "a_11_25": 15.951573506113007,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/002.png"
+        },
+        "003": {
+          "mae_deg": 26.566417694091797,
+          "nrmse_deg": 30.52788845659658,
+          "median_deg": 22.787086486816406,
+          "a_11_25": 12.099202034119253,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/003.png"
+        },
+        "004": {
+          "mae_deg": 27.915027618408203,
+          "nrmse_deg": 32.23163655330546,
+          "median_deg": 24.15907859802246,
+          "a_11_25": 11.577120030460161,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/004.png"
+        },
+        "005": {
+          "mae_deg": 26.529672622680664,
+          "nrmse_deg": 30.89747034585456,
+          "median_deg": 22.8355712890625,
+          "a_11_25": 14.582479599113299,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/005.png"
+        },
+        "006": {
+          "mae_deg": 25.52802085876465,
+          "nrmse_deg": 29.853450272250896,
+          "median_deg": 22.29744529724121,
+          "a_11_25": 19.489017885664687,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/006.png"
+        },
+        "007": {
+          "mae_deg": 28.67852210998535,
+          "nrmse_deg": 32.67522408114203,
+          "median_deg": 25.10879135131836,
+          "a_11_25": 8.910242551941996,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/007.png"
+        },
+        "008": {
+          "mae_deg": 25.172300338745117,
+          "nrmse_deg": 29.504700548405637,
+          "median_deg": 21.807992935180664,
+          "a_11_25": 19.620345064582644,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/008.png"
+        },
+        "009": {
+          "mae_deg": 25.458797454833984,
+          "nrmse_deg": 29.91563903524123,
+          "median_deg": 21.791658401489258,
+          "a_11_25": 17.941486804361222,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/009.png"
+        },
+        "010": {
+          "mae_deg": 26.321561813354492,
+          "nrmse_deg": 30.751492590252926,
+          "median_deg": 22.907224655151367,
+          "a_11_25": 16.92055512353467,
+          "num_pixels": 309913,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Tree/010.png"
+        }
+      }
+    },
+    "OCEAN": {
+      "mae_deg": 14.865785884857178,
+      "nrmse_deg": 18.106344512529525,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 14.568602561950684,
+        "002": 14.750717163085938,
+        "003": 15.04102611541748,
+        "004": 14.428715705871582,
+        "005": 14.9456787109375,
+        "006": 14.377041816711426,
+        "007": 13.972067832946777,
+        "008": 14.441266059875488,
+        "009": 16.536354064941406,
+        "010": 15.596388816833496
+      },
+      "per_light_nrmse_deg": {
+        "001": 17.906854969262174,
+        "002": 18.223397994098487,
+        "003": 18.394256708335742,
+        "004": 17.563086656717296,
+        "005": 18.24387245383696,
+        "006": 17.87261801332267,
+        "007": 17.04959334828881,
+        "008": 17.789676105023283,
+        "009": 19.424173579837973,
+        "010": 18.595915296571853
+      },
+      "median_deg": 12.183854103088379,
+      "a_11_25": 47.153012879379745,
+      "pixel_pooled_mae_deg": 14.865788459777832,
+      "pixel_pooled_nrmse_deg": 18.116552355381636,
+      "num_pixels": 4377540,
+      "per_light": {
+        "001": {
+          "mae_deg": 14.568602561950684,
+          "nrmse_deg": 17.906854969262174,
+          "median_deg": 11.6807279586792,
+          "a_11_25": 48.775111135477914,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/001.png"
+        },
+        "002": {
+          "mae_deg": 14.750717163085938,
+          "nrmse_deg": 18.223397994098487,
+          "median_deg": 11.819215774536133,
+          "a_11_25": 48.45209866728802,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/002.png"
+        },
+        "003": {
+          "mae_deg": 15.04102611541748,
+          "nrmse_deg": 18.394256708335742,
+          "median_deg": 11.940864562988281,
+          "a_11_25": 48.07700215189353,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/003.png"
+        },
+        "004": {
+          "mae_deg": 14.428715705871582,
+          "nrmse_deg": 17.563086656717296,
+          "median_deg": 11.963663101196289,
+          "a_11_25": 47.76518318507655,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/004.png"
+        },
+        "005": {
+          "mae_deg": 14.9456787109375,
+          "nrmse_deg": 18.24387245383696,
+          "median_deg": 12.286264419555664,
+          "a_11_25": 46.81647683402093,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/005.png"
+        },
+        "006": {
+          "mae_deg": 14.377041816711426,
+          "nrmse_deg": 17.87261801332267,
+          "median_deg": 11.422840118408203,
+          "a_11_25": 49.54791960781626,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/006.png"
+        },
+        "007": {
+          "mae_deg": 13.972067832946777,
+          "nrmse_deg": 17.04959334828881,
+          "median_deg": 10.934835433959961,
+          "a_11_25": 51.053788200678916,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/007.png"
+        },
+        "008": {
+          "mae_deg": 14.441266059875488,
+          "nrmse_deg": 17.789676105023283,
+          "median_deg": 11.740148544311523,
+          "a_11_25": 48.641702874217025,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/008.png"
+        },
+        "009": {
+          "mae_deg": 16.536354064941406,
+          "nrmse_deg": 19.424173579837973,
+          "median_deg": 14.052796363830566,
+          "a_11_25": 39.052070340876384,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/009.png"
+        },
+        "010": {
+          "mae_deg": 15.596388816833496,
+          "nrmse_deg": 18.595915296571853,
+          "median_deg": 13.175923347473145,
+          "a_11_25": 43.34877579645189,
+          "num_pixels": 437754,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Ocean/010.png"
+        }
+      }
+    },
+    "LUNG": {
+      "mae_deg": 21.563999938964844,
+      "nrmse_deg": 26.005035099341626,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 21.00895118713379,
+        "002": 21.693021774291992,
+        "003": 22.013608932495117,
+        "004": 21.306026458740234,
+        "005": 20.8294620513916,
+        "006": 22.988100051879883,
+        "007": 22.892562866210938,
+        "008": 21.16646957397461,
+        "009": 21.017915725708008,
+        "010": 20.723880767822266
+      },
+      "per_light_nrmse_deg": {
+        "001": 25.40288840532283,
+        "002": 26.279763749892332,
+        "003": 26.584588001586066,
+        "004": 25.60411059286138,
+        "005": 25.291768383319283,
+        "006": 27.406247992453686,
+        "007": 27.42985429861784,
+        "008": 25.56216876117612,
+        "009": 25.276469117327217,
+        "010": 25.212491690859522
+      },
+      "median_deg": 18.58501625061035,
+      "a_11_25": 32.21094576803673,
+      "pixel_pooled_mae_deg": 21.564010620117188,
+      "pixel_pooled_nrmse_deg": 26.018094198480593,
+      "num_pixels": 5111930,
+      "per_light": {
+        "001": {
+          "mae_deg": 21.00895118713379,
+          "nrmse_deg": 25.40288840532283,
+          "median_deg": 18.12312126159668,
+          "a_11_25": 33.770611099917254,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/001.png"
+        },
+        "002": {
+          "mae_deg": 21.693021774291992,
+          "nrmse_deg": 26.279763749892332,
+          "median_deg": 18.669452667236328,
+          "a_11_25": 32.37563894654269,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/002.png"
+        },
+        "003": {
+          "mae_deg": 22.013608932495117,
+          "nrmse_deg": 26.584588001586066,
+          "median_deg": 18.96515655517578,
+          "a_11_25": 31.519602185475936,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/003.png"
+        },
+        "004": {
+          "mae_deg": 21.306026458740234,
+          "nrmse_deg": 25.60411059286138,
+          "median_deg": 18.34096336364746,
+          "a_11_25": 32.57634592022974,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/004.png"
+        },
+        "005": {
+          "mae_deg": 20.8294620513916,
+          "nrmse_deg": 25.291768383319283,
+          "median_deg": 18.09036636352539,
+          "a_11_25": 34.125467289262566,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/005.png"
+        },
+        "006": {
+          "mae_deg": 22.988100051879883,
+          "nrmse_deg": 27.406247992453686,
+          "median_deg": 19.641407012939453,
+          "a_11_25": 27.212227084486678,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/006.png"
+        },
+        "007": {
+          "mae_deg": 22.892562866210938,
+          "nrmse_deg": 27.42985429861784,
+          "median_deg": 19.87762451171875,
+          "a_11_25": 28.758414141038706,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/007.png"
+        },
+        "008": {
+          "mae_deg": 21.16646957397461,
+          "nrmse_deg": 25.56216876117612,
+          "median_deg": 18.420272827148438,
+          "a_11_25": 33.1538186164521,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/008.png"
+        },
+        "009": {
+          "mae_deg": 21.017915725708008,
+          "nrmse_deg": 25.276469117327217,
+          "median_deg": 17.842876434326172,
+          "a_11_25": 33.73246503766679,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/009.png"
+        },
+        "010": {
+          "mae_deg": 20.723880767822266,
+          "nrmse_deg": 25.212491690859522,
+          "median_deg": 17.76412010192871,
+          "a_11_25": 34.88486735929482,
+          "num_pixels": 511193,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lung/010.png"
+        }
+      }
+    },
+    "BEAR": {
+      "mae_deg": 10.589454746246338,
+      "nrmse_deg": 12.654143385184213,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 10.39523983001709,
+        "002": 10.437846183776855,
+        "003": 9.992352485656738,
+        "004": 10.269761085510254,
+        "005": 12.375314712524414,
+        "006": 10.063362121582031,
+        "007": 10.038115501403809,
+        "008": 10.282243728637695,
+        "009": 10.602395057678223,
+        "010": 11.43791675567627
+      },
+      "per_light_nrmse_deg": {
+        "001": 12.451633544314575,
+        "002": 12.496964927547863,
+        "003": 12.096733631295043,
+        "004": 12.382278279849448,
+        "005": 14.332152273289564,
+        "006": 12.16303008654782,
+        "007": 12.172701350807479,
+        "008": 12.31470407927617,
+        "009": 12.691026600843475,
+        "010": 13.4402090780707
+      },
+      "median_deg": 9.037626266479492,
+      "a_11_25": 62.83664320253267,
+      "pixel_pooled_mae_deg": 10.589452743530273,
+      "pixel_pooled_nrmse_deg": 12.671808420752445,
+      "num_pixels": 3575670,
+      "per_light": {
+        "001": {
+          "mae_deg": 10.39523983001709,
+          "nrmse_deg": 12.451633544314575,
+          "median_deg": 8.819289207458496,
+          "a_11_25": 64.25313297927381,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/001.png"
+        },
+        "002": {
+          "mae_deg": 10.437846183776855,
+          "nrmse_deg": 12.496964927547863,
+          "median_deg": 8.882081031799316,
+          "a_11_25": 63.60346452552948,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/002.png"
+        },
+        "003": {
+          "mae_deg": 9.992352485656738,
+          "nrmse_deg": 12.096733631295043,
+          "median_deg": 8.352070808410645,
+          "a_11_25": 66.59842770725486,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/003.png"
+        },
+        "004": {
+          "mae_deg": 10.269761085510254,
+          "nrmse_deg": 12.382278279849448,
+          "median_deg": 8.64342975616455,
+          "a_11_25": 64.98893913588223,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/004.png"
+        },
+        "005": {
+          "mae_deg": 12.375314712524414,
+          "nrmse_deg": 14.332152273289564,
+          "median_deg": 11.173816680908203,
+          "a_11_25": 50.47333786395277,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/005.png"
+        },
+        "006": {
+          "mae_deg": 10.063362121582031,
+          "nrmse_deg": 12.16303008654782,
+          "median_deg": 8.440361022949219,
+          "a_11_25": 66.27205530711727,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/006.png"
+        },
+        "007": {
+          "mae_deg": 10.038115501403809,
+          "nrmse_deg": 12.172701350807479,
+          "median_deg": 8.359684944152832,
+          "a_11_25": 66.52235804758269,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/007.png"
+        },
+        "008": {
+          "mae_deg": 10.282243728637695,
+          "nrmse_deg": 12.31470407927617,
+          "median_deg": 8.746845245361328,
+          "a_11_25": 65.18778298892236,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/008.png"
+        },
+        "009": {
+          "mae_deg": 10.602395057678223,
+          "nrmse_deg": 12.691026600843475,
+          "median_deg": 9.037550926208496,
+          "a_11_25": 62.99910226614872,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/009.png"
+        },
+        "010": {
+          "mae_deg": 11.43791675567627,
+          "nrmse_deg": 13.4402090780707,
+          "median_deg": 10.029268264770508,
+          "a_11_25": 57.467831203662534,
+          "num_pixels": 357567,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bear/010.png"
+        }
+      }
+    },
+    "TV": {
+      "mae_deg": 20.174626922607423,
+      "nrmse_deg": 26.050203691914515,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 20.138545989990234,
+        "002": 20.302732467651367,
+        "003": 20.197969436645508,
+        "004": 20.20985984802246,
+        "005": 20.20655632019043,
+        "006": 19.80522346496582,
+        "007": 20.150611877441406,
+        "008": 20.17244529724121,
+        "009": 20.376577377319336,
+        "010": 20.185747146606445
+      },
+      "per_light_nrmse_deg": {
+        "001": 26.05679140139535,
+        "002": 26.086333454432236,
+        "003": 26.04156612830663,
+        "004": 26.076022431193586,
+        "005": 26.034554994581608,
+        "006": 25.759184736050756,
+        "007": 26.016492712132056,
+        "008": 26.003411020791706,
+        "009": 26.299495600038288,
+        "010": 26.1281844402229
+      },
+      "median_deg": 14.472177505493164,
+      "a_11_25": 40.46517312936626,
+      "pixel_pooled_mae_deg": 20.17462158203125,
+      "pixel_pooled_nrmse_deg": 26.050505061717818,
+      "num_pixels": 5522460,
+      "per_light": {
+        "001": {
+          "mae_deg": 20.138545989990234,
+          "nrmse_deg": 26.05679140139535,
+          "median_deg": 14.387331008911133,
+          "a_11_25": 40.85878394773344,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/001.png"
+        },
+        "002": {
+          "mae_deg": 20.302732467651367,
+          "nrmse_deg": 26.086333454432236,
+          "median_deg": 14.725912094116211,
+          "a_11_25": 39.14233874034398,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/002.png"
+        },
+        "003": {
+          "mae_deg": 20.197969436645508,
+          "nrmse_deg": 26.04156612830663,
+          "median_deg": 14.353082656860352,
+          "a_11_25": 40.542077262669174,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/003.png"
+        },
+        "004": {
+          "mae_deg": 20.20985984802246,
+          "nrmse_deg": 26.076022431193586,
+          "median_deg": 14.472675323486328,
+          "a_11_25": 40.40644929976858,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/004.png"
+        },
+        "005": {
+          "mae_deg": 20.20655632019043,
+          "nrmse_deg": 26.034554994581608,
+          "median_deg": 14.659996032714844,
+          "a_11_25": 39.97584409846336,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/005.png"
+        },
+        "006": {
+          "mae_deg": 19.80522346496582,
+          "nrmse_deg": 25.759184736050756,
+          "median_deg": 14.167917251586914,
+          "a_11_25": 41.67418143363646,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/006.png"
+        },
+        "007": {
+          "mae_deg": 20.150611877441406,
+          "nrmse_deg": 26.016492712132056,
+          "median_deg": 14.431453704833984,
+          "a_11_25": 40.71174802533653,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/007.png"
+        },
+        "008": {
+          "mae_deg": 20.17244529724121,
+          "nrmse_deg": 26.003411020791706,
+          "median_deg": 14.571104049682617,
+          "a_11_25": 40.006808559953356,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/008.png"
+        },
+        "009": {
+          "mae_deg": 20.376577377319336,
+          "nrmse_deg": 26.299495600038288,
+          "median_deg": 14.469087600708008,
+          "a_11_25": 40.4796051035227,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/009.png"
+        },
+        "010": {
+          "mae_deg": 20.185747146606445,
+          "nrmse_deg": 26.1281844402229,
+          "median_deg": 14.460679054260254,
+          "a_11_25": 40.85389482223502,
+          "num_pixels": 552246,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/TV/010.png"
+        }
+      }
+    },
+    "SUN": {
+      "mae_deg": 12.935026931762696,
+      "nrmse_deg": 16.830512320764896,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 12.964176177978516,
+        "002": 12.806042671203613,
+        "003": 12.5711088180542,
+        "004": 12.467772483825684,
+        "005": 13.022063255310059,
+        "006": 13.557931900024414,
+        "007": 12.630212783813477,
+        "008": 12.595733642578125,
+        "009": 13.400158882141113,
+        "010": 13.335068702697754
+      },
+      "per_light_nrmse_deg": {
+        "001": 16.883679956791244,
+        "002": 16.952190496476494,
+        "003": 16.56717601560036,
+        "004": 16.379096774900038,
+        "005": 16.935959401426977,
+        "006": 17.504270587042132,
+        "007": 16.487663378996544,
+        "008": 16.569075598614145,
+        "009": 17.03425750628089,
+        "010": 16.991753491520132
+      },
+      "median_deg": 8.628190040588379,
+      "a_11_25": 59.17812259343612,
+      "pixel_pooled_mae_deg": 12.935029983520508,
+      "pixel_pooled_nrmse_deg": 16.833511745749504,
+      "num_pixels": 6103100,
+      "per_light": {
+        "001": {
+          "mae_deg": 12.964176177978516,
+          "nrmse_deg": 16.883679956791244,
+          "median_deg": 8.622293472290039,
+          "a_11_25": 59.73259491078304,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/001.png"
+        },
+        "002": {
+          "mae_deg": 12.806042671203613,
+          "nrmse_deg": 16.952190496476494,
+          "median_deg": 8.09165096282959,
+          "a_11_25": 59.91692746309253,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/002.png"
+        },
+        "003": {
+          "mae_deg": 12.5711088180542,
+          "nrmse_deg": 16.56717601560036,
+          "median_deg": 7.862060070037842,
+          "a_11_25": 61.346692664383674,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/003.png"
+        },
+        "004": {
+          "mae_deg": 12.467772483825684,
+          "nrmse_deg": 16.379096774900038,
+          "median_deg": 8.15952205657959,
+          "a_11_25": 60.33736953351575,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/004.png"
+        },
+        "005": {
+          "mae_deg": 13.022063255310059,
+          "nrmse_deg": 16.935959401426977,
+          "median_deg": 8.694578170776367,
+          "a_11_25": 58.19354098736708,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/005.png"
+        },
+        "006": {
+          "mae_deg": 13.557931900024414,
+          "nrmse_deg": 17.504270587042132,
+          "median_deg": 9.295857429504395,
+          "a_11_25": 56.771968343956345,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/006.png"
+        },
+        "007": {
+          "mae_deg": 12.630212783813477,
+          "nrmse_deg": 16.487663378996544,
+          "median_deg": 8.286039352416992,
+          "a_11_25": 60.71766807032491,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/007.png"
+        },
+        "008": {
+          "mae_deg": 12.595733642578125,
+          "nrmse_deg": 16.569075598614145,
+          "median_deg": 8.067693710327148,
+          "a_11_25": 60.834330094542125,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/008.png"
+        },
+        "009": {
+          "mae_deg": 13.400158882141113,
+          "nrmse_deg": 17.03425750628089,
+          "median_deg": 9.445916175842285,
+          "a_11_25": 56.67316609591847,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/009.png"
+        },
+        "010": {
+          "mae_deg": 13.335068702697754,
+          "nrmse_deg": 16.991753491520132,
+          "median_deg": 9.530555725097656,
+          "a_11_25": 57.256967770477296,
+          "num_pixels": 610310,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Sun/010.png"
+        }
+      }
+    },
+    "TAICHI": {
+      "mae_deg": 18.288007164001463,
+      "nrmse_deg": 21.885696284323206,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 17.780834197998047,
+        "002": 18.30071449279785,
+        "003": 19.08137321472168,
+        "004": 17.809593200683594,
+        "005": 18.203195571899414,
+        "006": 18.692869186401367,
+        "007": 18.605369567871094,
+        "008": 18.33867645263672,
+        "009": 17.848461151123047,
+        "010": 18.218984603881836
+      },
+      "per_light_nrmse_deg": {
+        "001": 21.410906150838073,
+        "002": 21.84633874647705,
+        "003": 22.46654551753221,
+        "004": 21.421699119471025,
+        "005": 22.033688502464706,
+        "006": 22.094457707327393,
+        "007": 22.28499367188686,
+        "008": 21.92062680451188,
+        "009": 21.457908393668802,
+        "010": 21.919798229054024
+      },
+      "median_deg": 15.487678527832031,
+      "a_11_25": 36.69744035760949,
+      "pixel_pooled_mae_deg": 18.288021087646484,
+      "pixel_pooled_nrmse_deg": 21.888407537331364,
+      "num_pixels": 5105010,
+      "per_light": {
+        "001": {
+          "mae_deg": 17.780834197998047,
+          "nrmse_deg": 21.410906150838073,
+          "median_deg": 14.917284965515137,
+          "a_11_25": 38.62441013827593,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/001.png"
+        },
+        "002": {
+          "mae_deg": 18.30071449279785,
+          "nrmse_deg": 21.84633874647705,
+          "median_deg": 15.608409881591797,
+          "a_11_25": 36.612073237858496,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/002.png"
+        },
+        "003": {
+          "mae_deg": 19.08137321472168,
+          "nrmse_deg": 22.46654551753221,
+          "median_deg": 16.45895767211914,
+          "a_11_25": 32.73764400069735,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/003.png"
+        },
+        "004": {
+          "mae_deg": 17.809593200683594,
+          "nrmse_deg": 21.421699119471025,
+          "median_deg": 14.95356559753418,
+          "a_11_25": 38.260649832223635,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/004.png"
+        },
+        "005": {
+          "mae_deg": 18.203195571899414,
+          "nrmse_deg": 22.033688502464706,
+          "median_deg": 15.43484878540039,
+          "a_11_25": 37.963098994908925,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/005.png"
+        },
+        "006": {
+          "mae_deg": 18.692869186401367,
+          "nrmse_deg": 22.094457707327393,
+          "median_deg": 15.877890586853027,
+          "a_11_25": 34.404046221261076,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/006.png"
+        },
+        "007": {
+          "mae_deg": 18.605369567871094,
+          "nrmse_deg": 22.28499367188686,
+          "median_deg": 15.8833589553833,
+          "a_11_25": 35.582888182393376,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/007.png"
+        },
+        "008": {
+          "mae_deg": 18.33867645263672,
+          "nrmse_deg": 21.92062680451188,
+          "median_deg": 15.43736457824707,
+          "a_11_25": 36.75252350142311,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/008.png"
+        },
+        "009": {
+          "mae_deg": 17.848461151123047,
+          "nrmse_deg": 21.457908393668802,
+          "median_deg": 14.88570499420166,
+          "a_11_25": 38.63440032438722,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/009.png"
+        },
+        "010": {
+          "mae_deg": 18.218984603881836,
+          "nrmse_deg": 21.919798229054024,
+          "median_deg": 15.306872367858887,
+          "a_11_25": 37.40266914266574,
+          "num_pixels": 510501,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Taichi/010.png"
+        }
+      }
+    },
+    "WAVE": {
+      "mae_deg": 18.395272064208985,
+      "nrmse_deg": 21.801020091559746,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 16.574052810668945,
+        "002": 16.689266204833984,
+        "003": 17.58935546875,
+        "004": 18.440147399902344,
+        "005": 17.989723205566406,
+        "006": 18.41320037841797,
+        "007": 19.71849250793457,
+        "008": 18.69051170349121,
+        "009": 20.575267791748047,
+        "010": 19.272703170776367
+      },
+      "per_light_nrmse_deg": {
+        "001": 20.211551261288655,
+        "002": 20.34661562356088,
+        "003": 21.19511668276691,
+        "004": 21.680370361487938,
+        "005": 21.39561207048268,
+        "006": 21.710517117312733,
+        "007": 23.374510057170987,
+        "008": 21.92579552993197,
+        "009": 23.49238943415978,
+        "010": 22.67772277743493
+      },
+      "median_deg": 15.303773880004883,
+      "a_11_25": 35.19793643731309,
+      "pixel_pooled_mae_deg": 18.395273208618164,
+      "pixel_pooled_nrmse_deg": 21.826958773052883,
+      "num_pixels": 5326710,
+      "per_light": {
+        "001": {
+          "mae_deg": 16.574052810668945,
+          "nrmse_deg": 20.211551261288655,
+          "median_deg": 13.167876243591309,
+          "a_11_25": 44.17999102635586,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/001.png"
+        },
+        "002": {
+          "mae_deg": 16.689266204833984,
+          "nrmse_deg": 20.34661562356088,
+          "median_deg": 13.420496940612793,
+          "a_11_25": 43.738254945360275,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/002.png"
+        },
+        "003": {
+          "mae_deg": 17.58935546875,
+          "nrmse_deg": 21.19511668276691,
+          "median_deg": 14.185708999633789,
+          "a_11_25": 40.63727892075972,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/003.png"
+        },
+        "004": {
+          "mae_deg": 18.440147399902344,
+          "nrmse_deg": 21.680370361487938,
+          "median_deg": 15.320256233215332,
+          "a_11_25": 34.30654193676773,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/004.png"
+        },
+        "005": {
+          "mae_deg": 17.989723205566406,
+          "nrmse_deg": 21.39561207048268,
+          "median_deg": 14.89977741241455,
+          "a_11_25": 37.3926870432218,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/005.png"
+        },
+        "006": {
+          "mae_deg": 18.41320037841797,
+          "nrmse_deg": 21.710517117312733,
+          "median_deg": 15.091684341430664,
+          "a_11_25": 35.258912161540614,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/006.png"
+        },
+        "007": {
+          "mae_deg": 19.71849250793457,
+          "nrmse_deg": 23.374510057170987,
+          "median_deg": 16.1486873626709,
+          "a_11_25": 30.24455996290393,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/007.png"
+        },
+        "008": {
+          "mae_deg": 18.69051170349121,
+          "nrmse_deg": 21.92579552993197,
+          "median_deg": 15.41633415222168,
+          "a_11_25": 32.78402616249054,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/008.png"
+        },
+        "009": {
+          "mae_deg": 20.575267791748047,
+          "nrmse_deg": 23.49238943415978,
+          "median_deg": 17.604028701782227,
+          "a_11_25": 21.427297525114,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/009.png"
+        },
+        "010": {
+          "mae_deg": 19.272703170776367,
+          "nrmse_deg": 22.67772277743493,
+          "median_deg": 16.218603134155273,
+          "a_11_25": 32.00981468861643,
+          "num_pixels": 532671,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Wave/010.png"
+        }
+      }
+    },
+    "ASTRO": {
+      "mae_deg": 20.11071434020996,
+      "nrmse_deg": 24.000275696403847,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 20.324050903320312,
+        "002": 19.686857223510742,
+        "003": 20.33222007751465,
+        "004": 20.45567512512207,
+        "005": 19.124595642089844,
+        "006": 19.70963478088379,
+        "007": 21.68497085571289,
+        "008": 21.196762084960938,
+        "009": 19.274330139160156,
+        "010": 19.31804656982422
+      },
+      "per_light_nrmse_deg": {
+        "001": 24.180363853805876,
+        "002": 23.44562606817823,
+        "003": 24.103707532561266,
+        "004": 24.28133841893184,
+        "005": 23.069552055851975,
+        "006": 23.842304243282125,
+        "007": 26.113470394860748,
+        "008": 24.90912463904019,
+        "009": 23.026082442322238,
+        "010": 23.031187315203997
+      },
+      "median_deg": 17.333881378173828,
+      "a_11_25": 33.39149246883187,
+      "pixel_pooled_mae_deg": 20.110713958740234,
+      "pixel_pooled_nrmse_deg": 24.017977949288035,
+      "num_pixels": 4053820,
+      "per_light": {
+        "001": {
+          "mae_deg": 20.324050903320312,
+          "nrmse_deg": 24.180363853805876,
+          "median_deg": 17.713939666748047,
+          "a_11_25": 32.71704219723618,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/001.png"
+        },
+        "002": {
+          "mae_deg": 19.686857223510742,
+          "nrmse_deg": 23.44562606817823,
+          "median_deg": 16.7891845703125,
+          "a_11_25": 34.8947412563952,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/002.png"
+        },
+        "003": {
+          "mae_deg": 20.33222007751465,
+          "nrmse_deg": 24.103707532561266,
+          "median_deg": 17.544658660888672,
+          "a_11_25": 32.936834886600785,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/003.png"
+        },
+        "004": {
+          "mae_deg": 20.45567512512207,
+          "nrmse_deg": 24.28133841893184,
+          "median_deg": 17.63140296936035,
+          "a_11_25": 31.685422638400322,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/004.png"
+        },
+        "005": {
+          "mae_deg": 19.124595642089844,
+          "nrmse_deg": 23.069552055851975,
+          "median_deg": 16.46695327758789,
+          "a_11_25": 36.042054161260246,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/005.png"
+        },
+        "006": {
+          "mae_deg": 19.70963478088379,
+          "nrmse_deg": 23.842304243282125,
+          "median_deg": 17.043012619018555,
+          "a_11_25": 35.25711551080216,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/006.png"
+        },
+        "007": {
+          "mae_deg": 21.68497085571289,
+          "nrmse_deg": 26.113470394860748,
+          "median_deg": 18.803443908691406,
+          "a_11_25": 31.274698925951327,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/007.png"
+        },
+        "008": {
+          "mae_deg": 21.196762084960938,
+          "nrmse_deg": 24.90912463904019,
+          "median_deg": 18.348352432250977,
+          "a_11_25": 28.608078306387558,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/008.png"
+        },
+        "009": {
+          "mae_deg": 19.274330139160156,
+          "nrmse_deg": 23.026082442322238,
+          "median_deg": 16.512962341308594,
+          "a_11_25": 35.192485112807184,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/009.png"
+        },
+        "010": {
+          "mae_deg": 19.31804656982422,
+          "nrmse_deg": 23.031187315203997,
+          "median_deg": 16.391050338745117,
+          "a_11_25": 35.306451692477715,
+          "num_pixels": 405382,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Astro/010.png"
+        }
+      }
+    },
+    "WHALE": {
+      "mae_deg": 22.522511672973632,
+      "nrmse_deg": 26.491882401043323,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 22.466951370239258,
+        "002": 22.813032150268555,
+        "003": 23.61762809753418,
+        "004": 23.351089477539062,
+        "005": 22.334733963012695,
+        "006": 22.354848861694336,
+        "007": 21.350950241088867,
+        "008": 22.18730926513672,
+        "009": 20.726015090942383,
+        "010": 24.022558212280273
+      },
+      "per_light_nrmse_deg": {
+        "001": 26.143163868845168,
+        "002": 27.6069436277825,
+        "003": 28.471846679621077,
+        "004": 27.052468589982613,
+        "005": 26.47592178946506,
+        "006": 26.145199093545155,
+        "007": 25.1251413383632,
+        "008": 25.89522573546199,
+        "009": 24.45095784090785,
+        "010": 27.551955446458614
+      },
+      "median_deg": 18.941205978393555,
+      "a_11_25": 21.261518285742564,
+      "pixel_pooled_mae_deg": 22.52251625061035,
+      "pixel_pooled_nrmse_deg": 26.516841575088186,
+      "num_pixels": 4041400,
+      "per_light": {
+        "001": {
+          "mae_deg": 22.466951370239258,
+          "nrmse_deg": 26.143163868845168,
+          "median_deg": 19.15003776550293,
+          "a_11_25": 19.206957984856732,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/001.png"
+        },
+        "002": {
+          "mae_deg": 22.813032150268555,
+          "nrmse_deg": 27.6069436277825,
+          "median_deg": 18.537395477294922,
+          "a_11_25": 25.21947839857475,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/002.png"
+        },
+        "003": {
+          "mae_deg": 23.61762809753418,
+          "nrmse_deg": 28.471846679621077,
+          "median_deg": 19.41071319580078,
+          "a_11_25": 24.310387489483844,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/003.png"
+        },
+        "004": {
+          "mae_deg": 23.351089477539062,
+          "nrmse_deg": 27.052468589982613,
+          "median_deg": 20.047130584716797,
+          "a_11_25": 17.059187410303362,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/004.png"
+        },
+        "005": {
+          "mae_deg": 22.334733963012695,
+          "nrmse_deg": 26.47592178946506,
+          "median_deg": 18.67377281188965,
+          "a_11_25": 22.808927599346763,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/005.png"
+        },
+        "006": {
+          "mae_deg": 22.354848861694336,
+          "nrmse_deg": 26.145199093545155,
+          "median_deg": 19.333995819091797,
+          "a_11_25": 21.913445835601525,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/006.png"
+        },
+        "007": {
+          "mae_deg": 21.350950241088867,
+          "nrmse_deg": 25.1251413383632,
+          "median_deg": 17.430580139160156,
+          "a_11_25": 22.86979759489286,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/007.png"
+        },
+        "008": {
+          "mae_deg": 22.18730926513672,
+          "nrmse_deg": 25.89522573546199,
+          "median_deg": 18.558319091796875,
+          "a_11_25": 19.34131736526946,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/008.png"
+        },
+        "009": {
+          "mae_deg": 20.726015090942383,
+          "nrmse_deg": 24.45095784090785,
+          "median_deg": 17.018444061279297,
+          "a_11_25": 25.547582520908595,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/009.png"
+        },
+        "010": {
+          "mae_deg": 24.022558212280273,
+          "nrmse_deg": 27.551955446458614,
+          "median_deg": 20.878246307373047,
+          "a_11_25": 14.338100658187757,
+          "num_pixels": 404140,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Whale/010.png"
+        }
+      }
+    },
+    "BAGUA-T": {
+      "mae_deg": 24.96010570526123,
+      "nrmse_deg": 29.307282047194263,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 24.171140670776367,
+        "002": 25.676105499267578,
+        "003": 25.652101516723633,
+        "004": 24.292903900146484,
+        "005": 25.161802291870117,
+        "006": 26.17266273498535,
+        "007": 24.16908836364746,
+        "008": 24.470731735229492,
+        "009": 24.692277908325195,
+        "010": 25.142242431640625
+      },
+      "per_light_nrmse_deg": {
+        "001": 28.789521951267897,
+        "002": 29.908668723432996,
+        "003": 30.061595085603447,
+        "004": 28.54384593414109,
+        "005": 29.338745067507087,
+        "006": 30.528244564844204,
+        "007": 28.907915743331994,
+        "008": 29.14760569529395,
+        "009": 28.656271181350892,
+        "010": 29.190406525169074
+      },
+      "median_deg": 21.504802703857422,
+      "a_11_25": 19.387836496089783,
+      "pixel_pooled_mae_deg": 24.96011734008789,
+      "pixel_pooled_nrmse_deg": 29.31392664573295,
+      "num_pixels": 3585480,
+      "per_light": {
+        "001": {
+          "mae_deg": 24.171140670776367,
+          "nrmse_deg": 28.789521951267897,
+          "median_deg": 20.570789337158203,
+          "a_11_25": 23.10262503207381,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/001.png"
+        },
+        "002": {
+          "mae_deg": 25.676105499267578,
+          "nrmse_deg": 29.908668723432996,
+          "median_deg": 21.926584243774414,
+          "a_11_25": 15.583408637058357,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/002.png"
+        },
+        "003": {
+          "mae_deg": 25.652101516723633,
+          "nrmse_deg": 30.061595085603447,
+          "median_deg": 21.836261749267578,
+          "a_11_25": 17.195466157948168,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/003.png"
+        },
+        "004": {
+          "mae_deg": 24.292903900146484,
+          "nrmse_deg": 28.54384593414109,
+          "median_deg": 21.0230770111084,
+          "a_11_25": 21.07026116447449,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/004.png"
+        },
+        "005": {
+          "mae_deg": 25.161802291870117,
+          "nrmse_deg": 29.338745067507087,
+          "median_deg": 22.145816802978516,
+          "a_11_25": 18.65133817508395,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/005.png"
+        },
+        "006": {
+          "mae_deg": 26.17266273498535,
+          "nrmse_deg": 30.528244564844204,
+          "median_deg": 22.353240966796875,
+          "a_11_25": 15.149993864140923,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/006.png"
+        },
+        "007": {
+          "mae_deg": 24.16908836364746,
+          "nrmse_deg": 28.907915743331994,
+          "median_deg": 20.49559783935547,
+          "a_11_25": 24.29967535727434,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/007.png"
+        },
+        "008": {
+          "mae_deg": 24.470731735229492,
+          "nrmse_deg": 29.14760569529395,
+          "median_deg": 20.651687622070312,
+          "a_11_25": 22.519439517163672,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/008.png"
+        },
+        "009": {
+          "mae_deg": 24.692277908325195,
+          "nrmse_deg": 28.656271181350892,
+          "median_deg": 21.791603088378906,
+          "a_11_25": 18.74170264511307,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/009.png"
+        },
+        "010": {
+          "mae_deg": 25.142242431640625,
+          "nrmse_deg": 29.190406525169074,
+          "median_deg": 22.098533630371094,
+          "a_11_25": 17.564454410567066,
+          "num_pixels": 358548,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-T/010.png"
+        }
+      }
+    },
+    "LOTUS-T": {
+      "mae_deg": 23.9162260055542,
+      "nrmse_deg": 28.579399795133572,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 23.39016342163086,
+        "002": 23.148670196533203,
+        "003": 21.646684646606445,
+        "004": 24.90318489074707,
+        "005": 27.31941032409668,
+        "006": 19.772716522216797,
+        "007": 22.668926239013672,
+        "008": 25.55976676940918,
+        "009": 26.310606002807617,
+        "010": 24.44213104248047
+      },
+      "per_light_nrmse_deg": {
+        "001": 28.68184339690607,
+        "002": 27.651629242476282,
+        "003": 26.766870239741916,
+        "004": 29.381163775580585,
+        "005": 31.31460234477654,
+        "006": 25.04262230992265,
+        "007": 28.044435000567404,
+        "008": 30.073246432035223,
+        "009": 30.1166170945296,
+        "010": 28.720968114799465
+      },
+      "median_deg": 20.036457061767578,
+      "a_11_25": 19.718405082693327,
+      "pixel_pooled_mae_deg": 23.91623878479004,
+      "pixel_pooled_nrmse_deg": 28.631299338573793,
+      "num_pixels": 4318970,
+      "per_light": {
+        "001": {
+          "mae_deg": 23.39016342163086,
+          "nrmse_deg": 28.68184339690607,
+          "median_deg": 18.868497848510742,
+          "a_11_25": 26.53734570974098,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/001.png"
+        },
+        "002": {
+          "mae_deg": 23.148670196533203,
+          "nrmse_deg": 27.651629242476282,
+          "median_deg": 19.06951332092285,
+          "a_11_25": 18.78271902791638,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/002.png"
+        },
+        "003": {
+          "mae_deg": 21.646684646606445,
+          "nrmse_deg": 26.766870239741916,
+          "median_deg": 16.95899200439453,
+          "a_11_25": 29.217151311539556,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/003.png"
+        },
+        "004": {
+          "mae_deg": 24.90318489074707,
+          "nrmse_deg": 29.381163775580585,
+          "median_deg": 20.649377822875977,
+          "a_11_25": 14.242979228843913,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/004.png"
+        },
+        "005": {
+          "mae_deg": 27.31941032409668,
+          "nrmse_deg": 31.31460234477654,
+          "median_deg": 23.97397804260254,
+          "a_11_25": 7.553189765152339,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/005.png"
+        },
+        "006": {
+          "mae_deg": 19.772716522216797,
+          "nrmse_deg": 25.04262230992265,
+          "median_deg": 15.019149780273438,
+          "a_11_25": 35.2938316311528,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/006.png"
+        },
+        "007": {
+          "mae_deg": 22.668926239013672,
+          "nrmse_deg": 28.044435000567404,
+          "median_deg": 17.72127914428711,
+          "a_11_25": 25.106680527996257,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/007.png"
+        },
+        "008": {
+          "mae_deg": 25.55976676940918,
+          "nrmse_deg": 30.073246432035223,
+          "median_deg": 21.122346878051758,
+          "a_11_25": 14.75861142818774,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/008.png"
+        },
+        "009": {
+          "mae_deg": 26.310606002807617,
+          "nrmse_deg": 30.1166170945296,
+          "median_deg": 23.39986801147461,
+          "a_11_25": 10.097777942426088,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/009.png"
+        },
+        "010": {
+          "mae_deg": 24.44213104248047,
+          "nrmse_deg": 28.720968114799465,
+          "median_deg": 21.3719539642334,
+          "a_11_25": 15.593764253977222,
+          "num_pixels": 431897,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-T/010.png"
+        }
+      }
+    },
+    "LION-T": {
+      "mae_deg": 39.78868980407715,
+      "nrmse_deg": 45.87551112310972,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 39.20235061645508,
+        "002": 39.718406677246094,
+        "003": 38.353511810302734,
+        "004": 39.43962097167969,
+        "005": 41.5100212097168,
+        "006": 41.319095611572266,
+        "007": 38.76779556274414,
+        "008": 39.08462142944336,
+        "009": 39.470558166503906,
+        "010": 41.02091598510742
+      },
+      "per_light_nrmse_deg": {
+        "001": 45.55852613870083,
+        "002": 45.69307288086028,
+        "003": 44.405622369883346,
+        "004": 45.85959242553294,
+        "005": 47.433156669749046,
+        "006": 46.960913610334856,
+        "007": 44.47474427426531,
+        "008": 45.054106522742536,
+        "009": 46.0595081461497,
+        "010": 47.25586819287828
+      },
+      "median_deg": 35.540496826171875,
+      "a_11_25": 7.16523079935386,
+      "pixel_pooled_mae_deg": 39.78870391845703,
+      "pixel_pooled_nrmse_deg": 45.886931293743196,
+      "num_pixels": 4085800,
+      "per_light": {
+        "001": {
+          "mae_deg": 39.20235061645508,
+          "nrmse_deg": 45.55852613870083,
+          "median_deg": 34.785728454589844,
+          "a_11_25": 8.338146752166038,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/001.png"
+        },
+        "002": {
+          "mae_deg": 39.718406677246094,
+          "nrmse_deg": 45.69307288086028,
+          "median_deg": 35.43067932128906,
+          "a_11_25": 6.633217484947868,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/002.png"
+        },
+        "003": {
+          "mae_deg": 38.353511810302734,
+          "nrmse_deg": 44.405622369883346,
+          "median_deg": 33.80641174316406,
+          "a_11_25": 7.6330216848597585,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/003.png"
+        },
+        "004": {
+          "mae_deg": 39.43962097167969,
+          "nrmse_deg": 45.85959242553294,
+          "median_deg": 34.99626922607422,
+          "a_11_25": 8.146996916148613,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/004.png"
+        },
+        "005": {
+          "mae_deg": 41.5100212097168,
+          "nrmse_deg": 47.433156669749046,
+          "median_deg": 37.89323425292969,
+          "a_11_25": 6.21347104606197,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/005.png"
+        },
+        "006": {
+          "mae_deg": 41.319095611572266,
+          "nrmse_deg": 46.960913610334856,
+          "median_deg": 37.458091735839844,
+          "a_11_25": 5.552400998580449,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/006.png"
+        },
+        "007": {
+          "mae_deg": 38.76779556274414,
+          "nrmse_deg": 44.47474427426531,
+          "median_deg": 34.716163635253906,
+          "a_11_25": 6.8265700719565325,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/007.png"
+        },
+        "008": {
+          "mae_deg": 39.08462142944336,
+          "nrmse_deg": 45.054106522742536,
+          "median_deg": 34.9646110534668,
+          "a_11_25": 7.296735033530766,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/008.png"
+        },
+        "009": {
+          "mae_deg": 39.470558166503906,
+          "nrmse_deg": 46.0595081461497,
+          "median_deg": 34.69096374511719,
+          "a_11_25": 8.4617455577855,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/009.png"
+        },
+        "010": {
+          "mae_deg": 41.02091598510742,
+          "nrmse_deg": 47.25586819287828,
+          "median_deg": 36.66383361816406,
+          "a_11_25": 6.550002447501102,
+          "num_pixels": 408580,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-T/010.png"
+        }
+      }
+    },
+    "PANDA-T": {
+      "mae_deg": 25.30755500793457,
+      "nrmse_deg": 29.54057857259947,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 24.360158920288086,
+        "002": 25.97256851196289,
+        "003": 25.164945602416992,
+        "004": 25.551223754882812,
+        "005": 24.809234619140625,
+        "006": 25.931598663330078,
+        "007": 23.3675479888916,
+        "008": 27.767181396484375,
+        "009": 23.799480438232422,
+        "010": 26.35161018371582
+      },
+      "per_light_nrmse_deg": {
+        "001": 28.750447380091952,
+        "002": 30.265920002018646,
+        "003": 29.43646739071559,
+        "004": 29.6255734242451,
+        "005": 29.19896410882997,
+        "006": 30.13784879960425,
+        "007": 27.793571468835417,
+        "008": 31.632092511618893,
+        "009": 28.1862842884283,
+        "010": 30.378616351606556
+      },
+      "median_deg": 23.70187759399414,
+      "a_11_25": 20.068050741399976,
+      "pixel_pooled_mae_deg": 25.307552337646484,
+      "pixel_pooled_nrmse_deg": 29.560209382899615,
+      "num_pixels": 4163070,
+      "per_light": {
+        "001": {
+          "mae_deg": 24.360158920288086,
+          "nrmse_deg": 28.750447380091952,
+          "median_deg": 22.688762664794922,
+          "a_11_25": 22.435606415457823,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/001.png"
+        },
+        "002": {
+          "mae_deg": 25.97256851196289,
+          "nrmse_deg": 30.265920002018646,
+          "median_deg": 24.430269241333008,
+          "a_11_25": 19.117862538943616,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/002.png"
+        },
+        "003": {
+          "mae_deg": 25.164945602416992,
+          "nrmse_deg": 29.43646739071559,
+          "median_deg": 23.555768966674805,
+          "a_11_25": 20.506741419193048,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/003.png"
+        },
+        "004": {
+          "mae_deg": 25.551223754882812,
+          "nrmse_deg": 29.6255734242451,
+          "median_deg": 24.07054328918457,
+          "a_11_25": 18.856036530733327,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/004.png"
+        },
+        "005": {
+          "mae_deg": 24.809234619140625,
+          "nrmse_deg": 29.19896410882997,
+          "median_deg": 23.212162017822266,
+          "a_11_25": 21.474777027530166,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/005.png"
+        },
+        "006": {
+          "mae_deg": 25.931598663330078,
+          "nrmse_deg": 30.13784879960425,
+          "median_deg": 24.4754695892334,
+          "a_11_25": 19.04339826137922,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/006.png"
+        },
+        "007": {
+          "mae_deg": 23.3675479888916,
+          "nrmse_deg": 27.793571468835417,
+          "median_deg": 21.7563533782959,
+          "a_11_25": 24.890765708959975,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/007.png"
+        },
+        "008": {
+          "mae_deg": 27.767181396484375,
+          "nrmse_deg": 31.632092511618893,
+          "median_deg": 26.347026824951172,
+          "a_11_25": 13.853958737181934,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/008.png"
+        },
+        "009": {
+          "mae_deg": 23.799480438232422,
+          "nrmse_deg": 28.1862842884283,
+          "median_deg": 22.057079315185547,
+          "a_11_25": 23.39139144909886,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/009.png"
+        },
+        "010": {
+          "mae_deg": 26.35161018371582,
+          "nrmse_deg": 30.378616351606556,
+          "median_deg": 24.924365997314453,
+          "a_11_25": 17.10996932552179,
+          "num_pixels": 416307,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-T/010.png"
+        }
+      }
+    },
+    "CLOUD-T": {
+      "mae_deg": 28.605840301513673,
+      "nrmse_deg": 32.149999282544776,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 29.96832275390625,
+        "002": 29.189889907836914,
+        "003": 30.463682174682617,
+        "004": 26.15753746032715,
+        "005": 31.428686141967773,
+        "006": 30.439998626708984,
+        "007": 30.773128509521484,
+        "008": 27.261259078979492,
+        "009": 25.466745376586914,
+        "010": 24.90915298461914
+      },
+      "per_light_nrmse_deg": {
+        "001": 33.41692689989187,
+        "002": 32.67501990156778,
+        "003": 33.92179201393779,
+        "004": 29.860703537598738,
+        "005": 34.7944707803013,
+        "006": 33.861804377457304,
+        "007": 34.207423190519336,
+        "008": 30.917265030218065,
+        "009": 29.189946622658113,
+        "010": 28.654640471297444
+      },
+      "median_deg": 26.55582618713379,
+      "a_11_25": 9.766586213792783,
+      "pixel_pooled_mae_deg": 28.605844497680664,
+      "pixel_pooled_nrmse_deg": 32.22287807457194,
+      "num_pixels": 3650170,
+      "per_light": {
+        "001": {
+          "mae_deg": 29.96832275390625,
+          "nrmse_deg": 33.41692689989187,
+          "median_deg": 27.878189086914062,
+          "a_11_25": 8.25879342605961,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/001.png"
+        },
+        "002": {
+          "mae_deg": 29.189889907836914,
+          "nrmse_deg": 32.67501990156778,
+          "median_deg": 26.985326766967773,
+          "a_11_25": 8.958212905152363,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/002.png"
+        },
+        "003": {
+          "mae_deg": 30.463682174682617,
+          "nrmse_deg": 33.92179201393779,
+          "median_deg": 28.390039443969727,
+          "a_11_25": 8.00072325398543,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/003.png"
+        },
+        "004": {
+          "mae_deg": 26.15753746032715,
+          "nrmse_deg": 29.860703537598738,
+          "median_deg": 22.936819076538086,
+          "a_11_25": 12.022453748729511,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/004.png"
+        },
+        "005": {
+          "mae_deg": 31.428686141967773,
+          "nrmse_deg": 34.7944707803013,
+          "median_deg": 29.50303840637207,
+          "a_11_25": 6.849270033998417,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/005.png"
+        },
+        "006": {
+          "mae_deg": 30.439998626708984,
+          "nrmse_deg": 33.861804377457304,
+          "median_deg": 28.43186378479004,
+          "a_11_25": 7.839360906478328,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/006.png"
+        },
+        "007": {
+          "mae_deg": 30.773128509521484,
+          "nrmse_deg": 34.207423190519336,
+          "median_deg": 28.75861167907715,
+          "a_11_25": 7.648958815616807,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/007.png"
+        },
+        "008": {
+          "mae_deg": 27.261259078979492,
+          "nrmse_deg": 30.917265030218065,
+          "median_deg": 24.5642032623291,
+          "a_11_25": 11.285501771150384,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/008.png"
+        },
+        "009": {
+          "mae_deg": 25.466745376586914,
+          "nrmse_deg": 29.189946622658113,
+          "median_deg": 22.310815811157227,
+          "a_11_25": 13.04459792283647,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/009.png"
+        },
+        "010": {
+          "mae_deg": 24.90915298461914,
+          "nrmse_deg": 28.654640471297444,
+          "median_deg": 21.681350708007812,
+          "a_11_25": 13.757989353920502,
+          "num_pixels": 365017,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-T/010.png"
+        }
+      }
+    },
+    "BAGUA-R": {
+      "mae_deg": 21.65411720275879,
+      "nrmse_deg": 26.057731094708384,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 21.189239501953125,
+        "002": 21.399118423461914,
+        "003": 21.979074478149414,
+        "004": 21.50621795654297,
+        "005": 21.36096954345703,
+        "006": 21.291126251220703,
+        "007": 22.220245361328125,
+        "008": 21.6243896484375,
+        "009": 22.09119415283203,
+        "010": 21.879596710205078
+      },
+      "per_light_nrmse_deg": {
+        "001": 25.630586357237984,
+        "002": 25.826184285036337,
+        "003": 26.310788363790678,
+        "004": 25.886686195604224,
+        "005": 25.84625907268853,
+        "006": 25.740883231507247,
+        "007": 26.581954487160793,
+        "008": 26.031458145702285,
+        "009": 26.48043113472692,
+        "010": 26.242079673628833
+      },
+      "median_deg": 18.711700439453125,
+      "a_11_25": 30.385678883159915,
+      "pixel_pooled_mae_deg": 21.65411376953125,
+      "pixel_pooled_nrmse_deg": 26.05958134222069,
+      "num_pixels": 3555030,
+      "per_light": {
+        "001": {
+          "mae_deg": 21.189239501953125,
+          "nrmse_deg": 25.630586357237984,
+          "median_deg": 18.3209171295166,
+          "a_11_25": 32.316464277376,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/001.png"
+        },
+        "002": {
+          "mae_deg": 21.399118423461914,
+          "nrmse_deg": 25.826184285036337,
+          "median_deg": 18.48542022705078,
+          "a_11_25": 31.731096502701806,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/002.png"
+        },
+        "003": {
+          "mae_deg": 21.979074478149414,
+          "nrmse_deg": 26.310788363790678,
+          "median_deg": 18.84717559814453,
+          "a_11_25": 28.87542439866893,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/003.png"
+        },
+        "004": {
+          "mae_deg": 21.50621795654297,
+          "nrmse_deg": 25.886686195604224,
+          "median_deg": 18.63546371459961,
+          "a_11_25": 30.75698376666301,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/004.png"
+        },
+        "005": {
+          "mae_deg": 21.36096954345703,
+          "nrmse_deg": 25.84625907268853,
+          "median_deg": 18.434350967407227,
+          "a_11_25": 31.67174397965699,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/005.png"
+        },
+        "006": {
+          "mae_deg": 21.291126251220703,
+          "nrmse_deg": 25.740883231507247,
+          "median_deg": 18.38311195373535,
+          "a_11_25": 32.13390604298698,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/006.png"
+        },
+        "007": {
+          "mae_deg": 22.220245361328125,
+          "nrmse_deg": 26.581954487160793,
+          "median_deg": 19.201902389526367,
+          "a_11_25": 28.256301634585363,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/007.png"
+        },
+        "008": {
+          "mae_deg": 21.6243896484375,
+          "nrmse_deg": 26.031458145702285,
+          "median_deg": 18.649288177490234,
+          "a_11_25": 30.743481770899262,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/008.png"
+        },
+        "009": {
+          "mae_deg": 22.09119415283203,
+          "nrmse_deg": 26.48043113472692,
+          "median_deg": 19.118379592895508,
+          "a_11_25": 28.429577246886804,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/009.png"
+        },
+        "010": {
+          "mae_deg": 21.879596710205078,
+          "nrmse_deg": 26.242079673628833,
+          "median_deg": 18.955245971679688,
+          "a_11_25": 28.941809211174025,
+          "num_pixels": 355503,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Bagua-R/010.png"
+        }
+      }
+    },
+    "LOTUS-R": {
+      "mae_deg": 17.670797920227052,
+      "nrmse_deg": 23.102137965879756,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 16.793128967285156,
+        "002": 16.815139770507812,
+        "003": 18.379589080810547,
+        "004": 17.308483123779297,
+        "005": 16.759225845336914,
+        "006": 17.657676696777344,
+        "007": 20.024986267089844,
+        "008": 16.421953201293945,
+        "009": 18.949249267578125,
+        "010": 17.598546981811523
+      },
+      "per_light_nrmse_deg": {
+        "001": 22.0022520081729,
+        "002": 22.460497566738255,
+        "003": 23.415601420972745,
+        "004": 22.488296285008325,
+        "005": 23.042853960967953,
+        "006": 23.371300817211445,
+        "007": 25.47494907644073,
+        "008": 21.867897322632853,
+        "009": 23.40397150345303,
+        "010": 23.49375969719932
+      },
+      "median_deg": 12.498697280883789,
+      "a_11_25": 44.540992930852354,
+      "pixel_pooled_mae_deg": 17.67079734802246,
+      "pixel_pooled_nrmse_deg": 23.122839953574072,
+      "num_pixels": 4307450,
+      "per_light": {
+        "001": {
+          "mae_deg": 16.793128967285156,
+          "nrmse_deg": 22.0022520081729,
+          "median_deg": 11.607038497924805,
+          "a_11_25": 48.48460225887706,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/001.png"
+        },
+        "002": {
+          "mae_deg": 16.815139770507812,
+          "nrmse_deg": 22.460497566738255,
+          "median_deg": 11.348053932189941,
+          "a_11_25": 49.62611289742191,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/002.png"
+        },
+        "003": {
+          "mae_deg": 18.379589080810547,
+          "nrmse_deg": 23.415601420972745,
+          "median_deg": 13.076778411865234,
+          "a_11_25": 41.03309382581342,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/003.png"
+        },
+        "004": {
+          "mae_deg": 17.308483123779297,
+          "nrmse_deg": 22.488296285008325,
+          "median_deg": 12.421463012695312,
+          "a_11_25": 44.7536245342372,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/004.png"
+        },
+        "005": {
+          "mae_deg": 16.759225845336914,
+          "nrmse_deg": 23.042853960967953,
+          "median_deg": 11.019978523254395,
+          "a_11_25": 50.90970295650558,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/005.png"
+        },
+        "006": {
+          "mae_deg": 17.657676696777344,
+          "nrmse_deg": 23.371300817211445,
+          "median_deg": 12.118632316589355,
+          "a_11_25": 46.43187965037319,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/006.png"
+        },
+        "007": {
+          "mae_deg": 20.024986267089844,
+          "nrmse_deg": 25.47494907644073,
+          "median_deg": 14.269304275512695,
+          "a_11_25": 35.488978397892026,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/007.png"
+        },
+        "008": {
+          "mae_deg": 16.421953201293945,
+          "nrmse_deg": 21.867897322632853,
+          "median_deg": 11.162637710571289,
+          "a_11_25": 50.35415384972548,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/008.png"
+        },
+        "009": {
+          "mae_deg": 18.949249267578125,
+          "nrmse_deg": 23.40397150345303,
+          "median_deg": 14.581695556640625,
+          "a_11_25": 32.54593785186131,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/009.png"
+        },
+        "010": {
+          "mae_deg": 17.598546981811523,
+          "nrmse_deg": 23.49375969719932,
+          "median_deg": 12.179792404174805,
+          "a_11_25": 45.78184308581643,
+          "num_pixels": 430745,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lotus-R/010.png"
+        }
+      }
+    },
+    "LION-R": {
+      "mae_deg": 34.96390380859375,
+      "nrmse_deg": 39.828692887023585,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 33.90882110595703,
+        "002": 35.970516204833984,
+        "003": 33.376888275146484,
+        "004": 34.724666595458984,
+        "005": 36.50651168823242,
+        "006": 37.00663375854492,
+        "007": 32.94527816772461,
+        "008": 32.91893768310547,
+        "009": 35.886173248291016,
+        "010": 36.39461135864258
+      },
+      "per_light_nrmse_deg": {
+        "001": 38.74935168806821,
+        "002": 40.909617892219416,
+        "003": 37.89711599910231,
+        "004": 39.856915751977596,
+        "005": 41.67762416287489,
+        "006": 41.85850436853743,
+        "007": 36.94895760275442,
+        "008": 37.51102899918435,
+        "009": 41.21714643199924,
+        "010": 41.66066597351795
+      },
+      "median_deg": 32.189674377441406,
+      "a_11_25": 8.432115866551806,
+      "pixel_pooled_mae_deg": 34.96390914916992,
+      "pixel_pooled_nrmse_deg": 39.86953584873005,
+      "num_pixels": 4086080,
+      "per_light": {
+        "001": {
+          "mae_deg": 33.90882110595703,
+          "nrmse_deg": 38.74935168806821,
+          "median_deg": 31.25424575805664,
+          "a_11_25": 9.107995927637248,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/001.png"
+        },
+        "002": {
+          "mae_deg": 35.970516204833984,
+          "nrmse_deg": 40.909617892219416,
+          "median_deg": 33.212310791015625,
+          "a_11_25": 7.567399561437857,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/002.png"
+        },
+        "003": {
+          "mae_deg": 33.376888275146484,
+          "nrmse_deg": 37.89711599910231,
+          "median_deg": 30.782501220703125,
+          "a_11_25": 8.460920980499647,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/003.png"
+        },
+        "004": {
+          "mae_deg": 34.724666595458984,
+          "nrmse_deg": 39.856915751977596,
+          "median_deg": 31.63996124267578,
+          "a_11_25": 9.05537825984807,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/004.png"
+        },
+        "005": {
+          "mae_deg": 36.50651168823242,
+          "nrmse_deg": 41.67762416287489,
+          "median_deg": 33.59280776977539,
+          "a_11_25": 8.326072910956222,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/005.png"
+        },
+        "006": {
+          "mae_deg": 37.00663375854492,
+          "nrmse_deg": 41.85850436853743,
+          "median_deg": 34.403194427490234,
+          "a_11_25": 6.714259143237529,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/006.png"
+        },
+        "007": {
+          "mae_deg": 32.94527816772461,
+          "nrmse_deg": 36.94895760275442,
+          "median_deg": 31.141069412231445,
+          "a_11_25": 8.670167984963584,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/007.png"
+        },
+        "008": {
+          "mae_deg": 32.91893768310547,
+          "nrmse_deg": 37.51102899918435,
+          "median_deg": 30.321205139160156,
+          "a_11_25": 9.226691596836087,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/008.png"
+        },
+        "009": {
+          "mae_deg": 35.886173248291016,
+          "nrmse_deg": 41.21714643199924,
+          "median_deg": 32.593536376953125,
+          "a_11_25": 8.757048320150364,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/009.png"
+        },
+        "010": {
+          "mae_deg": 36.39461135864258,
+          "nrmse_deg": 41.66066597351795,
+          "median_deg": 33.267601013183594,
+          "a_11_25": 8.435223979951445,
+          "num_pixels": 408608,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Lion-R/010.png"
+        }
+      }
+    },
+    "PANDA-R": {
+      "mae_deg": 19.60709991455078,
+      "nrmse_deg": 23.8488305596233,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 19.306901931762695,
+        "002": 19.467187881469727,
+        "003": 19.18692970275879,
+        "004": 19.380311965942383,
+        "005": 19.884490966796875,
+        "006": 19.487030029296875,
+        "007": 20.035228729248047,
+        "008": 19.424236297607422,
+        "009": 19.888376235961914,
+        "010": 20.010305404663086
+      },
+      "per_light_nrmse_deg": {
+        "001": 23.5104334031424,
+        "002": 23.716842963886904,
+        "003": 23.383815595743027,
+        "004": 23.448334971870054,
+        "005": 24.198001305920926,
+        "006": 23.702801150232958,
+        "007": 24.380404424082194,
+        "008": 23.520626089781487,
+        "009": 24.160296863273388,
+        "010": 24.466748828299604
+      },
+      "median_deg": 16.267379760742188,
+      "a_11_25": 31.934197672315022,
+      "pixel_pooled_mae_deg": 19.607101440429688,
+      "pixel_pooled_nrmse_deg": 23.852019858992993,
+      "num_pixels": 4145750,
+      "per_light": {
+        "001": {
+          "mae_deg": 19.306901931762695,
+          "nrmse_deg": 23.5104334031424,
+          "median_deg": 16.049524307250977,
+          "a_11_25": 33.09509738889224,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/001.png"
+        },
+        "002": {
+          "mae_deg": 19.467187881469727,
+          "nrmse_deg": 23.716842963886904,
+          "median_deg": 16.24466323852539,
+          "a_11_25": 32.93589820900923,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/002.png"
+        },
+        "003": {
+          "mae_deg": 19.18692970275879,
+          "nrmse_deg": 23.383815595743027,
+          "median_deg": 15.683792114257812,
+          "a_11_25": 33.328830730265935,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/003.png"
+        },
+        "004": {
+          "mae_deg": 19.380311965942383,
+          "nrmse_deg": 23.448334971870054,
+          "median_deg": 16.05265998840332,
+          "a_11_25": 31.19797382861967,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/004.png"
+        },
+        "005": {
+          "mae_deg": 19.884490966796875,
+          "nrmse_deg": 24.198001305920926,
+          "median_deg": 16.34079360961914,
+          "a_11_25": 30.72278839775674,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/005.png"
+        },
+        "006": {
+          "mae_deg": 19.487030029296875,
+          "nrmse_deg": 23.702801150232958,
+          "median_deg": 16.271644592285156,
+          "a_11_25": 32.448652234215764,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/006.png"
+        },
+        "007": {
+          "mae_deg": 20.035228729248047,
+          "nrmse_deg": 24.380404424082194,
+          "median_deg": 17.260774612426758,
+          "a_11_25": 32.352409093650124,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/007.png"
+        },
+        "008": {
+          "mae_deg": 19.424236297607422,
+          "nrmse_deg": 23.520626089781487,
+          "median_deg": 15.92855453491211,
+          "a_11_25": 31.230296086353494,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/008.png"
+        },
+        "009": {
+          "mae_deg": 19.888376235961914,
+          "nrmse_deg": 24.160296863273388,
+          "median_deg": 16.420001983642578,
+          "a_11_25": 30.60893686305252,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/009.png"
+        },
+        "010": {
+          "mae_deg": 20.010305404663086,
+          "nrmse_deg": 24.466748828299604,
+          "median_deg": 16.62371063232422,
+          "a_11_25": 31.4210938913345,
+          "num_pixels": 414575,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Panda-R/010.png"
+        }
+      }
+    },
+    "CLOUD-R": {
+      "mae_deg": 22.061584854125975,
+      "nrmse_deg": 25.55958134293804,
+      "num_lights": 10,
+      "per_light_mae_deg": {
+        "001": 21.74774932861328,
+        "002": 21.855817794799805,
+        "003": 20.174571990966797,
+        "004": 22.938175201416016,
+        "005": 22.825420379638672,
+        "006": 23.67646598815918,
+        "007": 22.49870491027832,
+        "008": 21.16329002380371,
+        "009": 21.812610626220703,
+        "010": 21.92304229736328
+      },
+      "per_light_nrmse_deg": {
+        "001": 25.123354877978162,
+        "002": 25.449422562072993,
+        "003": 24.151893430788817,
+        "004": 26.18210385599122,
+        "005": 26.213871567181897,
+        "006": 27.179360852525008,
+        "007": 26.10448649215673,
+        "008": 24.695935740752763,
+        "009": 25.1514052228548,
+        "010": 25.343978827078004
+      },
+      "median_deg": 19.262224197387695,
+      "a_11_25": 19.357048821385515,
+      "pixel_pooled_mae_deg": 22.061574935913086,
+      "pixel_pooled_nrmse_deg": 25.57303772703654,
+      "num_pixels": 3608050,
+      "per_light": {
+        "001": {
+          "mae_deg": 21.74774932861328,
+          "nrmse_deg": 25.123354877978162,
+          "median_deg": 19.042158126831055,
+          "a_11_25": 19.319577056858968,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/001.png"
+        },
+        "002": {
+          "mae_deg": 21.855817794799805,
+          "nrmse_deg": 25.449422562072993,
+          "median_deg": 18.843421936035156,
+          "a_11_25": 21.292110696913845,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/002.png"
+        },
+        "003": {
+          "mae_deg": 20.174571990966797,
+          "nrmse_deg": 24.151893430788817,
+          "median_deg": 16.41074562072754,
+          "a_11_25": 28.733526420088413,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/003.png"
+        },
+        "004": {
+          "mae_deg": 22.938175201416016,
+          "nrmse_deg": 26.18210385599122,
+          "median_deg": 20.80386734008789,
+          "a_11_25": 16.084311470184726,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/004.png"
+        },
+        "005": {
+          "mae_deg": 22.825420379638672,
+          "nrmse_deg": 26.213871567181897,
+          "median_deg": 20.04905891418457,
+          "a_11_25": 15.709870982940924,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/005.png"
+        },
+        "006": {
+          "mae_deg": 23.67646598815918,
+          "nrmse_deg": 27.179360852525008,
+          "median_deg": 20.573904037475586,
+          "a_11_25": 14.346530674464045,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/006.png"
+        },
+        "007": {
+          "mae_deg": 22.49870491027832,
+          "nrmse_deg": 26.10448649215673,
+          "median_deg": 19.147825241088867,
+          "a_11_25": 17.026094427737977,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/007.png"
+        },
+        "008": {
+          "mae_deg": 21.16329002380371,
+          "nrmse_deg": 24.695935740752763,
+          "median_deg": 18.19007110595703,
+          "a_11_25": 23.302337827912584,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/008.png"
+        },
+        "009": {
+          "mae_deg": 21.812610626220703,
+          "nrmse_deg": 25.1514052228548,
+          "median_deg": 19.41366195678711,
+          "a_11_25": 19.032441346433668,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/009.png"
+        },
+        "010": {
+          "mae_deg": 21.92304229736328,
+          "nrmse_deg": 25.343978827078004,
+          "median_deg": 19.32752227783203,
+          "a_11_25": 18.723687310319978,
+          "num_pixels": 360805,
+          "input_image": "/data/DiLiGent-Pi/DiLiGenT-Pi_release/DiLiGenT-Pi_release_png/Cloud-R/010.png"
+        }
+      }
+    }
+  }
+}

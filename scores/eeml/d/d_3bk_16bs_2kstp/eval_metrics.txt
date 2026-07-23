@@ -1,0 +1,8 @@
+| split    |   N |   mean |   median |   a3(<11.25) |   rmse |
+|----------|-----|--------|----------|--------------|--------|
+| all      |  31 |  3.67  |    2.1   |       96.594 |  9.808 |
+| gt_only  |  16 |  3.822 |    2.047 |       96.344 | 10.505 |
+| syn_only |  15 |  3.502 |    2.159 |       96.872 |  8.968 |
+
+mean/median/a3/rmse = Lotus compute_normal_metrics (via evaluation_normal_score).
+stems_file: /home/kasina/lab/3dmaterials/2d_3d_pipeline/2D_3D_pipeline/pipeline/data/smudgeremoval/finaldataset/splits/seed42_tvt_70_15_15/test_stems.txt

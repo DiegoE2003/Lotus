@@ -33,7 +33,7 @@ def list_stems(data_dir: Path) -> list[str]:
         for p in data_dir.iterdir()
         if p.is_dir()
         and (p / "rgb.png").is_file()
-        and (p / "normal_map.png").is_file()
+        and (p / "cleaned_normalmap.png").is_file()
         and (p / "mask.png").is_file()
     )
 

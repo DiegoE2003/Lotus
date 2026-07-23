@@ -1,0 +1,42 @@
+# Per-object MAE / n-RMSE = mean of per-light Lotus mean/rmse
+# n-RMSE = normal_utils 'rmse' (angular RMSE, degrees)
+# Categories: metallic, specular, translucent, rough, translucent_rough
+| Object                           | #lights   |   MAE (deg) |   n-RMSE (deg) |
+|----------------------------------|-----------|-------------|----------------|
+| FLOWER                           | 100       |      19.576 |         22.041 |
+| BIRD                             | 100       |      18.83  |         22.545 |
+| RHINO                            | 100       |      25.295 |         26.803 |
+| LIONS                            | 100       |      24.992 |         26.564 |
+| QUEEN                            | 100       |      25.728 |         27.141 |
+| CRAB                             | 100       |      27.479 |         28.883 |
+| SHIP                             | 100       |      26.074 |         27.481 |
+| PARA                             | 100       |      27.511 |         28.935 |
+| SAIL                             | 100       |      23.172 |         24.835 |
+| FISH                             | 100       |      21.883 |         23.552 |
+| TREE                             | 100       |      33.091 |         36.303 |
+| OCEAN                            | 100       |      20.539 |         23.613 |
+| LUNG                             | 100       |      26.461 |         30.4   |
+| BEAR                             | 100       |      21.586 |         23.546 |
+| TV                               | 100       |      22.905 |         28.709 |
+| SUN                              | 100       |      18.698 |         22.748 |
+| TAICHI                           | 100       |      23.944 |         27.383 |
+| WAVE                             | 100       |      22.143 |         25.453 |
+| ASTRO                            | 100       |      25.944 |         29.525 |
+| WHALE                            | 100       |      30.096 |         33.816 |
+| BAGUA-T                          | 100       |      26.495 |         30.448 |
+| LOTUS-T                          | 100       |      23.871 |         28.377 |
+| LION-T                           | 100       |      36.675 |         42.053 |
+| PANDA-T                          | 100       |      22.754 |         27.073 |
+| CLOUD-T                          | 100       |      27.107 |         30.698 |
+| BAGUA-R                          | 100       |      23.986 |         28.167 |
+| LOTUS-R                          | 100       |      18.485 |         23.879 |
+| LION-R                           | 100       |      35.091 |         40.211 |
+| PANDA-R                          | 100       |      20.797 |         25.156 |
+| CLOUD-R                          | 100       |      21.636 |         25.508 |
+| Avg (mean of objects)            |           |      24.762 |         28.062 |
+| GLOBAL (pixel-pooled all lights) |           |      24.367 |         28.644 |
+| metallic avg                     |           |      24.054 |         25.878 |
+| specular avg                     |           |      24.541 |         28.15  |
+| translucent avg                  |           |      27.381 |         31.73  |
+| rough avg                        |           |      23.999 |         28.584 |
+| translucent_rough avg            |           |      25.69  |         30.157 |

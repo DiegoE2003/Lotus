@@ -62,7 +62,7 @@ logger = get_logger(__name__, log_level="INFO")
 
 
 class FinalDatasetDiscs(Dataset):
-    """finaldataset/{stem}/rgb.png + normal_map.png + mask.png"""
+    """finaldataset/{stem}/rgb.png + cleaned_normalmap.png + mask.png"""
 
     def __init__(
         self,
@@ -91,7 +91,7 @@ class FinalDatasetDiscs(Dataset):
         for stem in stems:
             d = self.data_dir / stem
             rgb = d / "rgb.png"
-            normal = d / "normal_map.png"
+            normal = d / "cleaned_normalmap.png"
             mask = d / "mask.png"
             if rgb.is_file() and normal.is_file() and mask.is_file():
                 self.samples.append((stem, rgb, normal, mask))
@@ -373,7 +373,7 @@ def run_disc_evaluation(pipeline, data_dir: Path, val_stems: list[str], timestep
     for stem in tqdm(val_stems, desc="val", leave=False):
         sample_dir = data_dir / stem
         rgb_path = sample_dir / "rgb.png"
-        gt_path = sample_dir / "normal_map.png"
+        gt_path = sample_dir / "cleaned_normalmap.png"
         mask_path = sample_dir / "mask.png"
         if not (rgb_path.is_file() and gt_path.is_file() and mask_path.is_file()):
             continue

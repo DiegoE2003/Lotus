@@ -70,7 +70,7 @@ def load_pred(pred_dir: Path, stem: str) -> torch.Tensor:
 def load_gt_mask(sample_dir: Path) -> tuple[torch.Tensor, torch.Tensor] | tuple[None, None]:
     """(1,3,H,W) GT + (1,1,H,W) mask for accumulate_normal_errors."""
     gt = cv2.cvtColor(
-        cv2.imread(str(sample_dir / "normal_map.png"), cv2.IMREAD_UNCHANGED),
+        cv2.imread(str(sample_dir / "cleaned_normalmap.png"), cv2.IMREAD_UNCHANGED),
         cv2.COLOR_BGR2RGB,
     ).astype(np.float32)
     if gt.max() > 1.5:
@@ -98,7 +98,7 @@ def resolve_stems(data_dir: Path, stems_file: str | None, split_dir: str | None)
     stems = sorted(
         p.name
         for p in data_dir.iterdir()
-        if p.is_dir() and (p / "normal_map.png").is_file() and (p / "mask.png").is_file()
+        if p.is_dir() and (p / "cleaned_normalmap.png").is_file() and (p / "mask.png").is_file()
     )
     path = stems_file
     if path is None and split_dir:

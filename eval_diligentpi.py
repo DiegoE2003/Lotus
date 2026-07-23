@@ -23,10 +23,17 @@ Layout
 Default protocol (monocular over all lights)
 -------------------------------------------
 For each object (e.g. Astro):
-  1. Run Lotus on every lit PNG (~100 light angles).
+  1. Run Lotus on every lit PNG (~100 light angles) — skipped if ``--prediction_dir``.
   2. Compare each prediction to the **same** Normal_gt.
-  3. Object MAE = mean of those ~100 per-light MAEs.
-Then Avg across objects (paper-style). Use ``--light_index N`` to smoke-test one light only.
+  3. Object MAE / n-RMSE = mean of those ~100 per-light Lotus ``mean`` / ``rmse``.
+Then Avg across objects + category avgs (metallic / specular / translucent / rough /
+translucent_rough). Use ``--light_index N`` to smoke-test one light only.
+
+Score existing preds (no re-infer)
+----------------------------------
+  python eval_diligentpi.py ... --score_only \\
+    --prediction_dir output/diligentpi_lotus_d \\
+    --output_dir output/diligentpi_lotus_d_metrics
 
 Example
 -------
@@ -78,6 +85,8 @@ MATERIAL_GROUPS = {
     "specular": DILIGENTPI_OBJECTS[10:20],
     "translucent": DILIGENTPI_OBJECTS[20:25],
     "rough": DILIGENTPI_OBJECTS[25:30],
+    # Combined translucent + rough (same shapes, different finish)
+    "translucent_rough": DILIGENTPI_OBJECTS[20:30],
 }
 
 CANONICAL_BY_KEY = {name.lower().replace("_", "-"): name for name in DILIGENTPI_OBJECTS}
@@ -119,8 +128,13 @@ def parse_args():
         "--prediction_dir",
         type=str,
         default=None,
-        help="Score existing preds only. Expect normal/<OBJ>/<light_stem>.npy "
-        "(or flat <OBJ>_<light_stem>.npy).",
+        help="Score existing preds only (no Lotus forward). Path to folder with "
+        "<OBJ>/<light>.npy, or a run dir containing normal/<OBJ>/<light>.npy.",
+    )
+    parser.add_argument(
+        "--score_only",
+        action="store_true",
+        help="Alias: require --prediction_dir and never load the Lotus pipeline.",
     )
     parser.add_argument(
         "--light_index",
@@ -128,6 +142,19 @@ def parse_args():
         default=None,
         help="If set, only this 0-based light (smoke test). "
         "Default: all lit images per object (~100).",
+    )
+    parser.add_argument(
+        "--light_from",
+        type=int,
+        default=None,
+        help="Inclusive start light number by stem (e.g. 1 → 001.png). "
+        "Use with --light_to (e.g. --light_from 1 --light_to 10).",
+    )
+    parser.add_argument(
+        "--light_to",
+        type=int,
+        default=None,
+        help="Inclusive end light number by stem (e.g. 10 → 010.png).",
     )
     parser.add_argument("--objects", type=str, nargs="*", default=None)
     parser.add_argument("--seed", type=int, default=42)
@@ -461,6 +488,21 @@ def save_pred_like_infer(pred_m11_chw: torch.Tensor, npy_path: Path, vis_path: P
         Image.fromarray((pred_01 * 255).astype(np.uint8)).save(vis_path)
 
 
+def resolve_prediction_root(prediction_dir: str | None) -> Path | None:
+    """Accept either ``.../normal`` or the run root that contains ``normal/``."""
+    if prediction_dir is None:
+        return None
+    root = Path(prediction_dir)
+    if not root.is_dir():
+        raise FileNotFoundError(f"prediction_dir not found: {root}")
+    if (root / "normal").is_dir():
+        # Prefer nested normal/ if this looks like a previous eval_diligentpi output
+        sample = next((root / "normal").iterdir(), None)
+        if sample is not None and sample.is_dir():
+            return root / "normal"
+    return root
+
+
 def resolve_pred_path(
     prediction_dir: Path, obj_name: str, light_stem: str | None = None
 ) -> Path:
@@ -493,19 +535,52 @@ def resolve_pred_path(
     )
 
 
-def select_lit_images(obj_dir: Path, light_index: int | None) -> list[Path]:
-    """All lit images, or a single index if ``light_index`` is set."""
+def _stem_light_number(stem: str) -> int | None:
+    """Parse '001' → 1; return None if not an integer stem."""
+    try:
+        return int(stem)
+    except ValueError:
+        return None
+
+
+def select_lit_images(
+    obj_dir: Path,
+    light_index: int | None = None,
+    light_from: int | None = None,
+    light_to: int | None = None,
+) -> list[Path]:
+    """Select lit images: all, one index, or stem-number range (e.g. 1–10 → 001–010)."""
     images = list_lit_images(obj_dir)
     if not images:
         raise FileNotFoundError(f"No lit images in {obj_dir}")
-    if light_index is None:
-        return images
-    if light_index < 0 or light_index >= len(images):
-        raise IndexError(
-            f"light_index={light_index} out of range for {obj_dir.name} "
-            f"({len(images)} images)"
-        )
-    return [images[light_index]]
+
+    if light_index is not None:
+        if light_from is not None or light_to is not None:
+            raise ValueError("Use either --light_index or --light_from/--light_to, not both")
+        if light_index < 0 or light_index >= len(images):
+            raise IndexError(
+                f"light_index={light_index} out of range for {obj_dir.name} "
+                f"({len(images)} images)"
+            )
+        return [images[light_index]]
+
+    if light_from is not None or light_to is not None:
+        if light_from is None or light_to is None:
+            raise ValueError("Set both --light_from and --light_to (inclusive stem numbers)")
+        if light_from > light_to:
+            raise ValueError(f"light_from ({light_from}) > light_to ({light_to})")
+        selected = []
+        for path in images:
+            num = _stem_light_number(path.stem)
+            if num is not None and light_from <= num <= light_to:
+                selected.append(path)
+        if not selected:
+            raise FileNotFoundError(
+                f"No lit images with stems in [{light_from}, {light_to}] under {obj_dir}"
+            )
+        return selected
+
+    return images
 
 
 # ========================= main =========================
@@ -515,9 +590,13 @@ def main():
     args = parse_args()
     seed_all(args.seed)
 
+    if args.score_only and not args.prediction_dir:
+        raise ValueError("--score_only requires --prediction_dir pointing at existing .npy preds")
+
     image_root = resolve_image_root(args.data_dir, args.image_subdir)
     gt_root = resolve_gt_root(args.gt_dir, image_root)
     objects = discover_objects(image_root, args.objects)
+    pred_root = resolve_prediction_root(args.prediction_dir)
 
     output_dir = Path(args.output_dir)
     # Mirror infer.py: normal/<OBJ>/<light_stem>.npy (+ optional vis)
@@ -531,29 +610,31 @@ def main():
         device = torch.device("cuda")
     else:
         device = torch.device("cpu")
-        logging.warning("CUDA not available; running on CPU will be slow.")
+        if pred_root is None:
+            logging.warning("CUDA not available; running on CPU will be slow.")
 
-    light_mode = (
-        f"single light_index={args.light_index}"
-        if args.light_index is not None
-        else "ALL lights per object (~100)"
-    )
+    if args.light_index is not None:
+        light_mode = f"single light_index={args.light_index}"
+    elif args.light_from is not None:
+        light_mode = f"stems {args.light_from:03d}–{args.light_to:03d}.png"
+    else:
+        light_mode = "ALL lights per object (~100)"
     logging.info("Device: %s", device)
     logging.info("Image root: %s", image_root)
     logging.info("GT root: %s", gt_root)
     logging.info("Objects (%d): %s", len(objects), ", ".join(objects))
     logging.info("Light protocol: %s", light_mode)
     logging.info(
-        "Object MAE = mean of per-light MAEs (each light vs same GT); "
-        "scoring via normal_utils"
+        "Object MAE / n-RMSE = mean of per-light Lotus mean/rmse "
+        "(each light vs same GT; n-RMSE = normal_utils 'rmse')"
     )
 
     pipe = None
-    if args.prediction_dir is None:
+    if pred_root is None:
         pipe = build_pipeline(args, device)
         logging.info("Loaded pipeline: %s (%s)", args.pretrained_model_name_or_path, args.mode)
     else:
-        logging.info("Scoring predictions from: %s", args.prediction_dir)
+        logging.info("SCORE ONLY — no inference. Predictions from: %s", pred_root)
 
     per_object = {}
     all_errors = []  # pixel-pooled across all objects × lights
@@ -563,23 +644,29 @@ def main():
         gt_dir = find_object_dir(gt_root, obj_name)
         gt_normal = load_gt_normal(gt_dir)
         mask = load_mask(image_dir)
-        lit_images = select_lit_images(image_dir, args.light_index)
+        lit_images = select_lit_images(
+            image_dir,
+            light_index=args.light_index,
+            light_from=args.light_from,
+            light_to=args.light_to,
+        )
 
         obj_pred_dir = pred_npy_dir / obj_name
         obj_vis_dir = (vis_dir / obj_name) if vis_dir is not None else None
-        if args.prediction_dir is None:
+        if pred_root is None:
             obj_pred_dir.mkdir(parents=True, exist_ok=True)
             if obj_vis_dir is not None:
                 obj_vis_dir.mkdir(parents=True, exist_ok=True)
 
         per_light = {}
         light_maes = []
+        light_nrmses = []
         obj_errors = []
 
         for img_path in tqdm(lit_images, desc=f"{obj_name} lights", leave=False):
             light_stem = img_path.stem  # e.g. "001"
 
-            if args.prediction_dir is None:
+            if pred_root is None:
                 rgb = load_rgb_like_infer(img_path, device)
                 pred_bchw = gen_normal(rgb, pipe, args.timestep, args.processing_res)
                 pred_hwc = (
@@ -598,98 +685,110 @@ def main():
                 if torch.cuda.is_available():
                     torch.cuda.empty_cache()
             else:
-                pred_path = resolve_pred_path(
-                    Path(args.prediction_dir), obj_name, light_stem=light_stem
-                )
+                pred_path = resolve_pred_path(pred_root, obj_name, light_stem=light_stem)
                 pred_hwc = load_pred_like_score_finaldataset(pred_path)
 
             errors, metrics = score_normals(pred_hwc, gt_normal, mask)
             mae = float(metrics["mean"])
+            nrmse = float(metrics["rmse"])  # Lotus angular RMSE (= n-RMSE here)
             light_maes.append(mae)
+            light_nrmses.append(nrmse)
             obj_errors.append(errors.detach().cpu().reshape(-1))
             per_light[light_stem] = {
                 "mae_deg": mae,
+                "nrmse_deg": nrmse,
                 "median_deg": float(metrics["median"]),
-                "rmse_deg": float(metrics["rmse"]),
                 "a_11_25": float(metrics["a3"]),
                 "num_pixels": int(errors.numel()),
                 "input_image": str(img_path),
             }
 
-        # Object score = average of per-light MAEs (user / monocular-over-lights protocol)
+        # Object scores = mean of per-light metrics (monocular-over-lights protocol)
         object_mae = float(np.mean(light_maes))
+        object_nrmse = float(np.mean(light_nrmses))
         obj_errors_t = torch.cat(obj_errors, dim=0)
         obj_pixel_metrics = compute_normal_metrics(obj_errors_t)
 
         per_object[obj_name] = {
-            "mae_deg": object_mae,  # mean of per-light MAEs
+            "mae_deg": object_mae,
+            "nrmse_deg": object_nrmse,
             "num_lights": len(light_maes),
             "per_light_mae_deg": {k: v["mae_deg"] for k, v in per_light.items()},
+            "per_light_nrmse_deg": {k: v["nrmse_deg"] for k, v in per_light.items()},
             "median_deg": float(obj_pixel_metrics["median"]),
-            "rmse_deg": float(obj_pixel_metrics["rmse"]),
             "a_11_25": float(obj_pixel_metrics["a3"]),
             "pixel_pooled_mae_deg": float(obj_pixel_metrics["mean"]),
+            "pixel_pooled_nrmse_deg": float(obj_pixel_metrics["rmse"]),
             "num_pixels": int(obj_errors_t.numel()),
             "per_light": per_light,
         }
         all_errors.append(obj_errors_t)
         logging.info(
-            "%s: MAE=%.3f° (mean of %d lights)  pixel-pooled=%.3f°",
+            "%s: MAE=%.3f°  n-RMSE=%.3f°  (%d lights)",
             obj_name,
             object_mae,
+            object_nrmse,
             len(light_maes),
-            float(obj_pixel_metrics["mean"]),
         )
 
     all_errors_t = torch.cat(all_errors, dim=0)
     global_metrics = compute_normal_metrics(all_errors_t)
 
-    # Overall Avg = mean of per-object MAEs (each object MAE already mean-over-lights)
     object_maes = [per_object[o]["mae_deg"] for o in objects if o in per_object]
+    object_nrmses = [per_object[o]["nrmse_deg"] for o in objects if o in per_object]
     object_mean_mae = float(np.mean(object_maes)) if object_maes else float("nan")
+    object_mean_nrmse = float(np.mean(object_nrmses)) if object_nrmses else float("nan")
 
     group_mae = {}
+    group_nrmse = {}
     for group_name, group_objs in MATERIAL_GROUPS.items():
-        vals = [per_object[o]["mae_deg"] for o in group_objs if o in per_object]
-        if vals:
-            group_mae[group_name] = float(np.mean(vals))
+        maes = [per_object[o]["mae_deg"] for o in group_objs if o in per_object]
+        nrmses = [per_object[o]["nrmse_deg"] for o in group_objs if o in per_object]
+        if maes:
+            group_mae[group_name] = float(np.mean(maes))
+            group_nrmse[group_name] = float(np.mean(nrmses))
 
     summary = {
         "dataset": "DiLiGenT-Pi",
         "protocol": (
-            "For each object: predict normals for every lit image, score each vs the "
-            "same Normal_gt (Lotus normal_utils), object MAE = mean of per-light MAEs. "
-            "Overall Avg = mean of object MAEs."
+            "For each object: score every lit-image prediction vs the same Normal_gt "
+            "(Lotus normal_utils). Object MAE / n-RMSE = mean of per-light mean/rmse. "
+            "Category / overall Avg = mean of object scores. "
+            "n-RMSE = Lotus normal_utils 'rmse' (angular RMSE in degrees)."
         ),
-        "metric": "MAngE = Lotus normal_utils 'mean' (degrees)",
         "metric_source": (
-            "evaluation.util.normal_utils.compute_normal_error + compute_normal_metrics "
-            "(same as score_finaldataset.py / evaluation_normal)"
+            "evaluation.util.normal_utils.compute_normal_error + compute_normal_metrics"
         ),
-        "forward_source": "eval.py gen_normal (processing_res default 0)",
+        "forward_source": (
+            "eval.py gen_normal"
+            if pred_root is None
+            else f"score_only from {pred_root}"
+        ),
         "num_objects": len(per_object),
-        "light_index": args.light_index,  # None => all lights
-        "lights_per_object": {
-            o: per_object[o]["num_lights"] for o in per_object
-        },
+        "light_index": args.light_index,
+        "light_from": args.light_from,
+        "light_to": args.light_to,
+        "lights_per_object": {o: per_object[o]["num_lights"] for o in per_object},
         "image_root": str(image_root),
         "gt_root": str(gt_root),
+        "prediction_dir": str(pred_root) if pred_root is not None else None,
         "model": (
             args.pretrained_model_name_or_path
-            if args.prediction_dir is None
-            else f"predictions:{args.prediction_dir}"
+            if pred_root is None
+            else f"predictions:{pred_root}"
         ),
         "mode": args.mode,
         "processing_res": args.processing_res,
-        # Pixel-pooled over all objects × all lights
         "global_mae_deg": float(global_metrics["mean"]),
+        "global_nrmse_deg": float(global_metrics["rmse"]),
         "global_median_deg": float(global_metrics["median"]),
-        "global_rmse_deg": float(global_metrics["rmse"]),
         "global_a_11_25": float(global_metrics["a3"]),
-        # Primary reported numbers
         "object_mean_mae_deg": object_mean_mae,
+        "object_mean_nrmse_deg": object_mean_nrmse,
         "group_mean_mae_deg": group_mae,
+        "group_mean_nrmse_deg": group_nrmse,
         "per_object_mae_deg": {k: v["mae_deg"] for k, v in per_object.items()},
+        "per_object_nrmse_deg": {k: v["nrmse_deg"] for k, v in per_object.items()},
         "per_object": per_object,
     }
 
@@ -702,34 +801,58 @@ def main():
             obj,
             f"{per_object[obj]['num_lights']}",
             f"{per_object[obj]['mae_deg']:.3f}",
+            f"{per_object[obj]['nrmse_deg']:.3f}",
         ]
         for obj in objects
         if obj in per_object
     ]
-    table_rows.append(["Avg (mean of objects)", "", f"{object_mean_mae:.3f}"])
-    table_rows.append(["GLOBAL (pixel-pooled all lights)", "", f"{summary['global_mae_deg']:.3f}"])
-    for g, v in group_mae.items():
-        table_rows.append([f"{g} avg", "", f"{v:.3f}"])
+    table_rows.append(
+        ["Avg (mean of objects)", "", f"{object_mean_mae:.3f}", f"{object_mean_nrmse:.3f}"]
+    )
+    table_rows.append(
+        [
+            "GLOBAL (pixel-pooled all lights)",
+            "",
+            f"{summary['global_mae_deg']:.3f}",
+            f"{summary['global_nrmse_deg']:.3f}",
+        ]
+    )
+    for g in MATERIAL_GROUPS:
+        if g in group_mae:
+            table_rows.append(
+                [f"{g} avg", "", f"{group_mae[g]:.3f}", f"{group_nrmse[g]:.3f}"]
+            )
 
     txt = tabulate(
         table_rows,
-        headers=["Object", "#lights", "MAE (deg)"],
+        headers=["Object", "#lights", "MAE (deg)", "n-RMSE (deg)"],
         tablefmt="github",
     )
     txt_path = output_dir / "eval_metrics.txt"
     with open(txt_path, "w") as f:
-        f.write("# Per-object MAE = mean of per-light MAEs (each light vs same GT)\n")
+        f.write(
+            "# Per-object MAE / n-RMSE = mean of per-light Lotus mean/rmse\n"
+            "# n-RMSE = normal_utils 'rmse' (angular RMSE, degrees)\n"
+            "# Categories: metallic, specular, translucent, rough, translucent_rough\n"
+        )
         f.write(txt + "\n")
 
-    print("\n=== Per-object MAE (mean over lights) ===")
+    print("\n=== Per-object MAE / n-RMSE (mean over lights) ===")
     print(txt)
     print(f"\nSaved: {json_path}")
     print(f"Saved: {txt_path}")
-    print("\nPer-object MAE (°):")
+    print("\nPer-object:")
     for obj in objects:
         if obj in per_object:
-            print(f"  {obj:12s}  {per_object[obj]['mae_deg']:.3f}")
-    print(f"  {'Avg':12s}  {object_mean_mae:.3f}")
+            print(
+                f"  {obj:12s}  MAE={per_object[obj]['mae_deg']:7.3f}°  "
+                f"n-RMSE={per_object[obj]['nrmse_deg']:7.3f}°"
+            )
+    print(f"  {'Avg':12s}  MAE={object_mean_mae:7.3f}°  n-RMSE={object_mean_nrmse:7.3f}°")
+    print("\nCategory averages:")
+    for g in MATERIAL_GROUPS:
+        if g in group_mae:
+            print(f"  {g:18s}  MAE={group_mae[g]:7.3f}°  n-RMSE={group_nrmse[g]:7.3f}°")
 
 
 if __name__ == "__main__":

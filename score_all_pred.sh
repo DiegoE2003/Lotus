@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Score every run under output/pred/{family}/{run}/ (test split by default).
-# Finds nested runs (pred/d/..., pred/g/..., pred/d_old_normal/..., …).
-# Skip if scores/eval_metrics.json exists unless FORCE=1.
+# Writes metrics to output/scores/{family}/{run}/ (same names as pred).
+# Skip if scores/.../eval_metrics.json exists unless FORCE=1.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
@@ -10,6 +10,7 @@ cd "$ROOT"
 DATA_DIR="${DATA_DIR:-/home/kasina/lab/3dmaterials/2d_3d_pipeline/2D_3D_pipeline/pipeline/data/smudgeremoval/finaldataset}"
 SPLIT_DIR="${SPLIT_DIR:-${DATA_DIR}/splits/seed42_tvt_70_15_15}"
 PRED_ROOT="${PRED_ROOT:-${ROOT}/output/pred}"
+SCORES_ROOT="${SCORES_ROOT:-${ROOT}/output/scores}"
 FORCE="${FORCE:-0}"
 
 if [[ ! -d "$PRED_ROOT" ]]; then
@@ -17,9 +18,12 @@ if [[ ! -d "$PRED_ROOT" ]]; then
   exit 1
 fi
 
+mkdir -p "$SCORES_ROOT"
+
 echo "DATA_DIR=$DATA_DIR"
 echo "SPLIT_DIR=$SPLIT_DIR"
 echo "PRED_ROOT=$PRED_ROOT"
+echo "SCORES_ROOT=$SCORES_ROOT"
 echo "FORCE=$FORCE"
 echo
 
@@ -44,14 +48,15 @@ for run_dir in "${runs[@]}"; do
     continue
   fi
 
-  out_dir="$run_dir/scores"
+  out_dir="$SCORES_ROOT/$rel"
   metrics_json="$out_dir/eval_metrics.json"
   if [[ -f "$metrics_json" && "$FORCE" != "1" ]]; then
     echo "Skip $rel (already scored: $metrics_json)"
     continue
   fi
 
-  echo "=== Scoring $rel → $out_dir ==="
+  mkdir -p "$out_dir"
+  echo "=== Scoring $rel → scores/$rel ==="
   python score_finaldataset.py \
     --data_dir "$DATA_DIR" \
     --prediction_dir "$run_dir" \
